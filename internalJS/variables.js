@@ -1,12 +1,12 @@
 "use strict";
 
-let s;
+let nodes = [];
 
-let canvasWidth = window.innerWidth *.35;
-let canvasHeight =  window.innerHeight*.9;
+let canvasHeight =  window.innerHeight*.7;
+let canvasWidth = canvasHeight/2;
 
-let noRows = 7;
-let noCols = 15;
+let noRows = 10;
+let noCols = 20;
 
 let sclH = canvasHeight / noCols;
 let sclW = canvasWidth / noRows;

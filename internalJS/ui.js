@@ -3,16 +3,45 @@
 function setup()
 {
     createCanvas( canvasWidth, canvasHeight);
-    s = new Shape();
+    let s = new Shape();
+    nodes.unshift(s);
+
+    frameRate(7.5);
 }
 
 function draw()
 {
     background('#ccc');
     gridLines();
+    displayBlocks();
+    hitTest();
+}
 
-    s.update();
-    s.show();
+function displayBlocks()
+{
+    spawn(); // Spawn new block 
+    nodes[0].update(); // Update blocks position
+    nodes[0].show(); // Show 'current' block
+    for (let i = 1; i < nodes.length; i++) {
+        nodes[i].show(); // Show blocks
+    }
+}
+
+function hitTest() 
+{
+    if (nodes[0].y+sclH === canvasHeight) {
+        console.log('hit')
+        nodes[0].ySpeed = 0;
+        nodes[0].hit = true;
+    }
+    for (let i = 1; i < nodes.length; i++) {
+        console.log('loop');
+        if (nodes[0].y === nodes[i].y && nodes[0].x === nodes[i].x) {
+            console.log('hit')
+            nodes[0].ySpeed = 0;
+            nodes[0].hit = true;
+        }
+    }
 }
 
 function gridLines()
@@ -31,5 +60,15 @@ function gridLines()
     for(let i = 0; i < noCols; i++) {
         line(0, gridIncH, canvasWidth, gridIncH);
         gridIncH+=sclH;
+    }
+}
+
+function spawn()
+{
+    // if (nodes[0].y+sclH === canvasHeight || nodes[0].y+sclH) {
+    if (nodes[0].hit) {
+        console.log('new shape');
+        let s = new Shape();
+        nodes.unshift(s);
     }
 }
