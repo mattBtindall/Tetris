@@ -10,18 +10,10 @@ function Shape()
     this.hit = false;
 }
 
-// Shape.prototype.update = function()
-// {
-//     this.x = this.x + this.xSpeed;
-//     this.y = this.y + this.ySpeed;
-// }
-
 Shape.prototype.update = function()
 {
     this.x = this.x + this.xSpeed; 
-    //if ((this.y+sclH) < canvasHeight) {
     this.y = this.y + this.ySpeed;
-    //}
 }
 
 Shape.prototype.show = function()
@@ -36,7 +28,7 @@ Shape.prototype.moveL = function()
     if ((this.x + sclW) === canvasWidth || this.x != 0) {
         console.log('move left');
         this.xSpeed = -sclW;
-    }
+    } 
 }
 
 Shape.prototype.moveR = function()
