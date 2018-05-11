@@ -4,7 +4,7 @@ function setup()
 {
     createCanvas( canvasWidth, canvasHeight);
     let s = new Shape();
-    nodes.unshift(s);
+    shapes.unshift(s);
 
     frameRate(7.5);
 }
@@ -20,55 +20,55 @@ function draw()
 function displayBlocks()
 {
     spawn(); // Spawn new block 
-    nodes[0].update(); // Update blocks position
-    nodes[0].show(); // Show 'current' block
-    for (let i = 1; i < nodes.length; i++) {
-        nodes[i].show(); // Show blocks
+    shapes[0].update(); // Update blocks position
+    shapes[0].show(); // Show 'current' block
+    for (let i = 1; i < shapes.length; i++) {
+        shapes[i].show(); // Show blocks
     }
 }
 
 function hitTest() 
 {
-    if (nodes[0].y+sclH === canvasHeight) {
+    if (shapes[0].y+scl === canvasHeight) {
         console.log('hit')
-        nodes[0].ySpeed = 0;
-        nodes[0].hit = true;
+        shapes[0].ySpeed = 0;
+        shapes[0].hit = true;
     }
-    for (let i = 1; i < nodes.length; i++) {
+    for (let i = 1; i < shapes.length; i++) {
         console.log('loop');
-        if (nodes[0].y === nodes[i].y && nodes[0].x === nodes[i].x) {
+        if (shapes[0].x === shapes[i].x && shapes[0].y === shapes[i].y-scl) {
             console.log('hit')
-            nodes[0].ySpeed = 0;
-            nodes[0].hit = true;
+            shapes[0].ySpeed = 0;
+            shapes[0].hit = true;
         }
     }
 }
 
 function gridLines()
 {
-    let gridIncW = sclW;
-    let gridIncH = sclH;
+    let gridIncW = scl;
+    let gridIncH = scl;
 
     stroke(255, 204, 0);
     strokeWeight(2);
 
     for (let i = 0; i < noRows; i++) {
         line(gridIncW, 0, gridIncW, canvasHeight);
-        gridIncW+=sclW;
+        gridIncW+=scl;
     }
 
     for(let i = 0; i < noCols; i++) {
         line(0, gridIncH, canvasWidth, gridIncH);
-        gridIncH+=sclH;
+        gridIncH+=scl;
     }
 }
 
 function spawn()
 {
-    // if (nodes[0].y+sclH === canvasHeight || nodes[0].y+sclH) {
-    if (nodes[0].hit) {
+    // if (shapes[0].y+scl === canvasHeight || shapes[0].y+scl) {
+    if (shapes[0].hit) {
         console.log('new shape');
         let s = new Shape();
-        nodes.unshift(s);
+        shapes.unshift(s);
     }
 }
