@@ -3,9 +3,7 @@
 function setup()
 {
     createCanvas( canvasWidth, canvasHeight);
-    let s = new Shape();
-    shapes.unshift(s);
-
+    //newShape();
     frameRate(7.5);
 }
 
@@ -13,33 +11,33 @@ function draw()
 {
     background('#ccc');
     gridLines();
-    displayBlocks();
-    hitTest();
+    //displayBlocks();
+    //hitTest();
 }
 
 function displayBlocks()
 {
     spawn(); // Spawn new block 
-    shapes[0].update(); // Update blocks position
-    shapes[0].show(); // Show 'current' block
-    for (let i = 1; i < shapes.length; i++) {
-        shapes[i].show(); // Show blocks
+    cubes[0].update(); // Update blocks position
+    cubes[0].show(); // Show 'current' block
+    for (let i = 1; i < cubes.length; i++) {
+        cubes[i].show(); // Show blocks
     }
 }
 
 function hitTest() 
 {
-    if (shapes[0].y+scl === canvasHeight) {
+    if (cubes[0].y+scl >= (canvasHeight-scl)) {
         console.log('hit')
-        shapes[0].ySpeed = 0;
-        shapes[0].hit = true;
+        cubes[0].ySpeed = 0;
+        cubes[0].hit = true;
     }
-    for (let i = 1; i < shapes.length; i++) {
+    for (let i = 1; i < cubes.length; i++) {
         console.log('loop');
-        if (shapes[0].x === shapes[i].x && shapes[0].y === shapes[i].y-scl) {
+        if (cubes[0].x === cubes[i].x && cubes[0].y === cubes[i].y-scl) {
             console.log('hit')
-            shapes[0].ySpeed = 0;
-            shapes[0].hit = true;
+            cubes[0].ySpeed = 0;
+            cubes[0].hit = true;
         }
     }
 }
@@ -63,12 +61,16 @@ function gridLines()
     }
 }
 
-function spawn()
-{
-    // if (shapes[0].y+scl === canvasHeight || shapes[0].y+scl) {
-    if (shapes[0].hit) {
-        console.log('new shape');
-        let s = new Shape();
-        shapes.unshift(s);
-    }
-}
+// function spawn()
+// {
+//     // if (cubes[0].y+scl === canvasHeight || cubes[0].y+scl) {
+//     if (cubes[0].hit) {
+//         newShape();
+//     } 
+// }
+
+// function newShape()
+// {
+//     let s = new Cube();
+//     cubes.unshift(s);
+// }

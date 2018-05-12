@@ -1,40 +1,17 @@
 "use strict";
 
-function Shape()
+function Shape( shape)
 {
-    this.x = sclW *3;
-    this.y = 0;
-    this.xSpeed = 0;
-    this.ySpeed = sclH;
-    this.move = true;
-    this.hit = false;
+    this.shape = shape;
+    
 }
 
-Shape.prototype.update = function()
+Shape.prototype.createCube = function()
 {
-    this.x = this.x + this.xSpeed; 
-    this.y = this.y + this.ySpeed;
-}
+    let x = scl*5;
+    let y = -scl; 
 
-Shape.prototype.show = function()
-{
-    fill('#255');
-    rect(this.x, this.y, sclW, sclH);
-}
+    for (let i = 0; i < NO_CUBES; i++) {
 
-Shape.prototype.moveL = function()
-{
-    console.log('move called');
-    if ((this.x + sclW) === canvasWidth || this.x != 0) {
-        console.log('move left');
-        this.xSpeed = -sclW;
-    } 
-}
-
-Shape.prototype.moveR = function()
-{
-    if (this.x === 0 || (this.x + sclW) != canvasWidth) {
-        console.log('move right');
-        this.xSpeed = sclW;
     }
 }

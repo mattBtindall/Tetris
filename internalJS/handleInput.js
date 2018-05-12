@@ -3,23 +3,22 @@
 function keyPressed()
 {
     if (keyCode === LEFT_ARROW) {
-        setInterval(nodes[0].moveL, 100);
-        //nodes[0].moveL();
+        //setInterval(nodes[0].moveL, 100);
+        cubes[0].moveL();
     } else if (keyCode === RIGHT_ARROW) {
-        nodes[0].moveR();
+        cubes[0].moveR();
     } else if(keyCode === DOWN_ARROW) {
-        nodes[0].ySpeed = 2 * sclH;
+        cubes[0].ySpeed = 2 * scl;
     }
 }
 
 function keyReleased()
 {
     if (keyCode === LEFT_ARROW) {
-        nodes[0].xSpeed = 0;
+        cubes[0].xSpeed = 0;
     } else if (keyCode === RIGHT_ARROW) {
-        nodes[0].xSpeed = 0;
+        cubes[0].xSpeed = 0;
     } else if(keyCode === DOWN_ARROW) {
-        nodes[0].ySpeed = sclH;
+        cubes[0].ySpeed = scl;
     }
 }
-
