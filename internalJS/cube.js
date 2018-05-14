@@ -2,8 +2,8 @@
 
 function Cube( x, y)
 {
-    this.x = scl *3;
-    this.y = -scl;
+    this.x = x;
+    this.y = y;
     this.xSpeed = 0;
     this.ySpeed = scl;
     this.move = true;
@@ -19,6 +19,7 @@ Cube.prototype.update = function()
 Cube.prototype.show = function()
 {
     fill('#255');
+    stroke(0);
     rect(this.x, this.y, scl, scl);
 }
 

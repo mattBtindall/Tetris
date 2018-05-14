@@ -3,14 +3,17 @@
 function setup()
 {
     createCanvas( canvasWidth, canvasHeight);
-    //newShape();
     frameRate(7.5);
+    let s = new Shape('cube');
+    shapes.unshift(s);
 }
 
 function draw()
 {
     background('#ccc');
     gridLines();
+    shapes[0].update();
+    shapes[0].show();
     //displayBlocks();
     //hitTest();
 }
@@ -59,6 +62,23 @@ function gridLines()
         line(0, gridIncH, canvasWidth, gridIncH);
         gridIncH+=scl;
     }
+}
+
+function getRandomInt(min, max) 
+{
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getNextShape() // Get next shape at random
+{
+    do 
+    {  
+        shapeNo = getRandomInt(1, 7);
+        if (shapeNo === prevShapeNo) {
+            shapeNo = getRandomInt(1 ,7);
+        }
+    } while (shapeNo === prevShapeNo);
+    prevShapeNo = shapeNo;
 }
 
 // function spawn()
