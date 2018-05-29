@@ -1,16 +1,16 @@
 "use strict";
 
-let cubes = [];
-let shapes = [];
-const NO_CUBES = 4;
+let globalCubes = [];
+let shape; // Global shape object
 
-let canvasHeight =  window.innerHeight*.7;
-let canvasWidth = canvasHeight/2;
+// Canvas
+let canvasHeight =  window.innerHeight*.7,
+    canvasWidth = canvasHeight/2,
+    noRows = 10,
+    noCols = 20,
+    scl = canvasHeight / noCols;
 
-let noRows = 10;
-let noCols = 20;
+let ranNum;
+let prevRanNum;
 
-let scl = canvasHeight / noCols;
-
-let shapeNo;
-let prevShapeNo;
+let shapeNo = 0;

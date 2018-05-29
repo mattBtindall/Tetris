@@ -3,47 +3,54 @@
 function setup()
 {
     createCanvas( canvasWidth, canvasHeight);
-    frameRate(7.5);
-    let s = new Shape('cube');
-    shapes.unshift(s);
+    frameRate(10);
+    shape = new Shape('cube');
+    //shapes[0].getY();
 }
 
 function draw()
 {
     background('#ccc');
     gridLines();
-    shapes[0].update();
-    shapes[0].show();
-    //displayBlocks();
-    //hitTest();
+    shape.update();
+    shape.show();
+    shape.getCoordinates();
+    shape.drawTest();
+    shape.hitBottom();
+    shape.hitCube();
+
+    globalCubes.forEach((cube) => {
+        cube.show();
+        cube.drawTest();
+    });
 }
 
-function displayBlocks()
-{
-    spawn(); // Spawn new block 
-    cubes[0].update(); // Update blocks position
-    cubes[0].show(); // Show 'current' block
-    for (let i = 1; i < cubes.length; i++) {
-        cubes[i].show(); // Show blocks
-    }
-}
+// function displayBlocks()
+// {
+//     spawn(); // Spawn new block 
+//     cubes[0].update(); // Update blocks position
+//     cubes[0].show(); // Show 'current' block
+//     for (let i = 1; i < cubes.length; i++) {
+//         cubes[i].show(); // Show blocks
+//     }
+// }
 
-function hitTest() 
-{
-    if (cubes[0].y+scl >= (canvasHeight-scl)) {
-        console.log('hit')
-        cubes[0].ySpeed = 0;
-        cubes[0].hit = true;
-    }
-    for (let i = 1; i < cubes.length; i++) {
-        console.log('loop');
-        if (cubes[0].x === cubes[i].x && cubes[0].y === cubes[i].y-scl) {
-            console.log('hit')
-            cubes[0].ySpeed = 0;
-            cubes[0].hit = true;
-        }
-    }
-}
+// function hitTest() 
+// {
+//     if (cubes[0].y+scl >= (canvasHeight-scl)) {
+//         console.log('hit')
+//         cubes[0].ySpeed = 0;
+//         cubes[0].hit = true;
+//     }
+//     for (let i = 1; i < cubes.length; i++) {
+//         console.log('loop');
+//         if (cubes[0].x === cubes[i].x && cubes[0].y === cubes[i].y-scl) {
+//             console.log('hit')
+//             cubes[0].ySpeed = 0;
+//             cubes[0].hit = true;
+//         }
+//     }
+// }
 
 function gridLines()
 {
@@ -71,14 +78,16 @@ function getRandomInt(min, max)
 
 function getNextShape() // Get next shape at random
 {
-    do 
+    let min = 1,
+        max = 7;
+    do
     {  
-        shapeNo = getRandomInt(1, 7);
-        if (shapeNo === prevShapeNo) {
-            shapeNo = getRandomInt(1 ,7);
+        ranNum = getRandomInt(min, max);
+        if (ranNum === prevranNum) {
+            ranNum = getRandomInt(min ,max);
         }
-    } while (shapeNo === prevShapeNo);
-    prevShapeNo = shapeNo;
+    } while (ranNum === prevranNum);
+    prevranNum = ranNum;
 }
 
 // function spawn()
@@ -94,3 +103,35 @@ function getNextShape() // Get next shape at random
 //     let s = new Cube();
 //     cubes.unshift(s);
 // }
+
+function getColour( colour, opac)
+{
+    let colTemp;
+    switch (colour)
+    {
+        case 'red':
+            colTemp = 'rgba(146, 43, 33,'+opac+')';
+            break;
+        case 'green':
+            colTemp = 'rgba(35, 155, 86,'+opac+')';
+            break;
+        case 'blue':
+            colTemp = 'rgba(40, 116, 166,'+opac+')';
+            break;
+        case 'yellow':
+            colTemp = 'rgba(183, 149, 11,'+opac+')';
+            break;
+        case 'orange':
+            colTemp = 'rgba(160, 64, 0,'+opac+')';
+            break;
+        case 'purple' : 
+            colTemp = 'rgba(108, 52, 131,'+opac+')';
+            break;
+        case 'grey' :
+            colTemp = 'rgba(236, 240, 241,'+opac+')';
+            break;
+        default:
+            colTemp = 'rgba(0, 21, 45,'+opac+')';
+    }
+    return colTemp;
+}
