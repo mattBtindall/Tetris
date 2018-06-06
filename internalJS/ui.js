@@ -3,9 +3,14 @@
 function setup()
 {
     createCanvas( canvasWidth, canvasHeight);
-    frameRate(10);
+    frameRate(5);
+    preloadFonts();
     shape = new Shape('cube');
-    //shapes[0].getY();
+}
+
+function preloadFonts() 
+{
+    loadFont('/fonts/VT323.ttf');
 }
 
 function draw()
@@ -15,42 +20,20 @@ function draw()
     shape.update();
     shape.show();
     shape.getCoordinates();
-    shape.drawTest();
     shape.hitBottom();
     shape.hitCube();
+    //shape.shapeCollide();
+    shape.isMoved();
+    shape.setPrevCoordinates();
+    pauseText();
 
+    // globalCubes.forEach((cube) => cube.show());
     globalCubes.forEach((cube) => {
-        cube.show();
-        cube.drawTest();
+        //cube.drawTest();
+        cube.show()
     });
+
 }
-
-// function displayBlocks()
-// {
-//     spawn(); // Spawn new block 
-//     cubes[0].update(); // Update blocks position
-//     cubes[0].show(); // Show 'current' block
-//     for (let i = 1; i < cubes.length; i++) {
-//         cubes[i].show(); // Show blocks
-//     }
-// }
-
-// function hitTest() 
-// {
-//     if (cubes[0].y+scl >= (canvasHeight-scl)) {
-//         console.log('hit')
-//         cubes[0].ySpeed = 0;
-//         cubes[0].hit = true;
-//     }
-//     for (let i = 1; i < cubes.length; i++) {
-//         console.log('loop');
-//         if (cubes[0].x === cubes[i].x && cubes[0].y === cubes[i].y-scl) {
-//             console.log('hit')
-//             cubes[0].ySpeed = 0;
-//             cubes[0].hit = true;
-//         }
-//     }
-// }
 
 function gridLines()
 {
@@ -71,11 +54,6 @@ function gridLines()
     }
 }
 
-function getRandomInt(min, max) 
-{
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function getNextShape() // Get next shape at random
 {
     let min = 1,
@@ -89,20 +67,6 @@ function getNextShape() // Get next shape at random
     } while (ranNum === prevranNum);
     prevranNum = ranNum;
 }
-
-// function spawn()
-// {
-//     // if (cubes[0].y+scl === canvasHeight || cubes[0].y+scl) {
-//     if (cubes[0].hit) {
-//         newShape();
-//     } 
-// }
-
-// function newShape()
-// {
-//     let s = new Cube();
-//     cubes.unshift(s);
-// }
 
 function getColour( colour, opac)
 {
@@ -135,3 +99,40 @@ function getColour( colour, opac)
     }
     return colTemp;
 }
+
+// 
+
+function pauseText()
+{
+    if (paused) {
+        textSize(75);
+        fill(240, 240, 240);
+        textFont('VT323');
+        text('Paused', scl*1.5, scl*10);
+        unpaused = true;
+        let canvas = document.querySelector('#defaultCanvas0').style.filter = "grayscale(100%)";
+
+        // -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+        // filter: grayscale(100%);
+        // canvas.style.filter = "grayscale(100%)";
+
+    }
+    else if (!paused && unpaused) {
+        let i = 4;
+        unpaused = false;
+        let interval = setInterval(() => {
+            if (i >= 2) {
+                i--;
+                console.log('yup');
+                textSize(100);
+                fill(240, 240, 240);
+                text(i.toString(), ((canvasWidth/2)-scl), ((canvasHeight/2)-scl));
+            } else if (i === 1) {
+                clearInterval(interval);
+                let canvas = document.querySelector('#defaultCanvas0').style.filter = "none";
+                shape.pause( scl);
+            }
+        }, 1000);
+    }
+}
+

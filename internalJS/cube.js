@@ -18,6 +18,9 @@ Cube.prototype.update = function()
     // this.y = this.y + this.ySpeed;
     this.x += this.xSpeed; 
     this.y += this.ySpeed;
+    
+    this.x = Math.round(this.x * 100) / 100;
+    this.y = Math.round(this.y * 100) / 100;
 }
 
 Cube.prototype.show = function()
@@ -31,15 +34,13 @@ Cube.prototype.show = function()
 Cube.prototype.drawTest = function()
 {
     stroke('yellow');
-    strokeWeight(10);
+    strokeWeight(15);
     line(this.x,this.y,this.x,this.y);
 }
 
 Cube.prototype.moveL = function()
 {
-    console.log('move called');
     if ((this.x + scl) === canvasWidth || this.x != 0) {
-        console.log('move left');
         this.xSpeed = -scl;
     } 
 }
@@ -47,7 +48,36 @@ Cube.prototype.moveL = function()
 Cube.prototype.moveR = function()
 {
     if (this.x === 0 || (this.x + scl) != canvasWidth) {
-        console.log('move right');
         this.xSpeed = scl;
     }
+}
+
+// Cube.prototype.collide = function()
+// {
+//     if (this.x <= 0 || this.x >= canvasWidth - scl)
+//         return true;
+//     else 
+//         return false;
+// }
+
+Cube.prototype.collideL = function() 
+{
+    for (let i = 0; i < globalCubes.length; i++) {
+        if (this.x <= 0 || this.x === globalCubes[i].x + scl && this.y === globalCubes[i].y) {
+            console.log('dont do it mister please');
+            return true;
+        }
+    }
+    return false;
+}
+
+Cube.prototype.collideR = function() 
+{
+    for (let i = 0;i < globalCubes.length; i++) {
+        if (this.x >= canvasWidth -scl || this.x + scl === globalCubes[i].x && this.y === globalCubes[i].y) {
+            console.log('dont do it mister please');
+            return true;
+        } 
+    }
+    return false;
 }

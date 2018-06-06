@@ -4,21 +4,30 @@ function keyPressed()
 {
     if (keyCode === LEFT_ARROW) {
         //setInterval(nodes[0].moveL, 100);
-        cubes[0].moveL();
+        shape.moveL();
     } else if (keyCode === RIGHT_ARROW) {
-        cubes[0].moveR();
+        shape.moveR();
     } else if(keyCode === DOWN_ARROW) {
-        cubes[0].ySpeed = 2 * scl;
+        shape.moveDown();
+    }
+
+    if (keyCode === 80) {
+        if (!paused) {
+            shape.pause( 0);
+            paused = true;
+        } else {
+            paused = false;
+        }
     }
 }
 
 function keyReleased()
 {
     if (keyCode === LEFT_ARROW) {
-        cubes[0].xSpeed = 0;
+        shape.normalSpeedX();
     } else if (keyCode === RIGHT_ARROW) {
-        cubes[0].xSpeed = 0;
+        shape.normalSpeedX();
     } else if(keyCode === DOWN_ARROW) {
-        cubes[0].ySpeed = scl;
+        shape.normalSpeedY();
     }
 }

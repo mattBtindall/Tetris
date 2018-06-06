@@ -8,10 +8,15 @@ function Shape( shape)
     this.cubes = [];
     this.colour = null;
     this.shapeNo = shapeNo;
+    //this.collided = false;
+    this.stopped = false;
 
     this.x = [];
     this.y = [];
-    this.stopped = false;
+    this.prevX = [];
+    this.prevY = [];
+    this.stopL = false;
+    this.stopR = false;
 
     this.createSquare();
     this.getCoordinates();
@@ -54,10 +59,86 @@ Shape.prototype.getCoordinates = function()
     // }
     this.cubes.forEach(( obj, i) => {
         if (yTemp.indexOf(obj.y+scl) === -1) {
-            this.x[i] = obj.x;
-            this.y[i] = obj.y+scl;
+            // this.x[i] = obj.x;
+            // this.y[i] = obj.y+scl;
+            this.x[i] = Math.round(obj.x * 100) / 100;
+            this.y[i] = Math.round((obj.y+scl) * 100) / 100;
+            // this.x[i] = Math.round(this.x[i] * 100) / 100;
+            // this.y[i] = Math.round(this.y[i] * 100) / 100;
         }
     });
+}
+
+Shape.prototype.setPrevCoordinates = function() 
+{
+    this.cubes.forEach((obj, i) => {
+        this.prevX[i] = this.x[i];
+        this.prevY[i] = this.y[i];
+    });
+}
+
+Shape.prototype.isMoved = function()
+{
+    this.x.forEach(( x, i) => {
+        if ((x - this.prevX[i]) > 0) {
+            if (this.spaceTestR()) {
+                this.normalSpeedX();
+            }
+        }
+        else if ((x - this.prevX[i]) < 0) {
+            if (this.spaceTestL()) {
+                this.normalSpeedX();
+            }
+        }
+        for (let i = 0; i < this.x.length; i++) {
+            
+        }
+    });
+}
+
+// Shape.prototype.constrict = function()
+// {
+//     for (let i = 0; i < this.cubes.length; i++) { // Test for edges
+//         if (this.cubes[i].collide()) {
+//             console.log('stop');
+//             this.normalSpeedX();
+//             return this.stopX = true;
+//         }
+//     }
+//     return this.stopX = false;
+// }
+
+// Shape.prototype.spaceTest = function()
+// {
+//     // check direction
+//     // check if the space next is free
+//     for (let j = 0; j < this.cubes.length; j++) {
+//         for (let i = 0; i < globalCubes.length; i++) { // Test for edges
+//             if (this.cubes[j].x + scl === globalCubes[i].x && this.cubes[j].y === globalCubes[i].y) {
+//                 this.stopX = true;
+//             }
+//         }
+//     }
+// }
+
+Shape.prototype.spaceTestL = function()
+{
+    for (let i = 0; i < this.cubes.length; i++) {
+        if (this.cubes[i].collideL()) {
+            return this.stopL = true;
+        }
+    }
+    return this.stopL = false;
+}
+
+Shape.prototype.spaceTestR = function()
+{
+    for (let i = 0; i < this.cubes.length; i++) {
+        if (this.cubes[i].collideR()) {
+            return this.stopR = true;
+        }
+    }
+    return this.stopR = false;
 }
 
 Shape.prototype.drawTest = function()
@@ -80,33 +161,85 @@ Shape.prototype.hitBottom = function()
 
 Shape.prototype.hitCube = function() 
 {
-    // for (let i = 0; i < this.cubes.length; i++) {
-    //     for (let j = 0; j < globalCubes.length; j++) {
-    //         if (this.cubes[i].x === globalCubes[j].x && this.cubes[i].y === globalCubes[j].y) {
-    //             this.hit = true;
-    //         }
-    //     }
-    // }
-    this.cubes.forEach((cube) => { 
-        globalCubes.forEach((cubes) => {
-            if (cube.x === cubes.x && cube.y >= (cubes.y - scl)) {
-                this.hit(); 
+    for (let i = 0; i < this.x.length; i++) {
+        for (let j = 0; j < globalCubes.length; j++) {
+            if (this.x[i] === globalCubes[j].x && this.y[i] === globalCubes[j].y) {
+                this.hit();
             }
-        });
-    });
+        }
+    }
 }
 
 Shape.prototype.hit = function()
 {
-    if (!this.stopped) {
+    if (!this.stopped) { // Stops shape
         this.stopped = true;
         this.cubes.forEach((obj) => {
             obj.ySpeed = 0;
-            globalCubes.push(obj);
+            globalCubes.unshift(obj);
         });
-        if (this.y >= 0) {
-            console.log('new shape');
-            shape = new Shape('cube');
+    }
+
+    for (let i = 0; i < this.cubes.length; i++) {
+        if (globalCubes[i].y <= 0) {
+            // Call game over message
+            console.log('game over');
+            gameOver = true;
+            break;
         }
     }
+    if (!gameOver) {
+        shape = new Shape('cube');
+    }
+}
+
+// Shape.prototype.shapeCollide = function()
+// {
+//     this.cubes.forEach((obj) => {
+//         if (obj.collide()) {
+//             this.collided = true;
+//         } else {
+//             this.collided = false;
+//         }
+//     });
+// }
+
+// Keyboard movements
+
+Shape.prototype.moveR = function()
+{
+    //this.constrict();
+    this.spaceTestR();
+    if (!this.stopR) {
+        this.cubes.forEach((obj) => obj.moveR());
+    }
+}
+
+Shape.prototype.moveL = function()
+{
+    //this.constrict();
+    this.spaceTestL();  
+    if (!this.stopL) {
+        this.cubes.forEach((obj) => obj.moveL());
+    }
+}
+
+Shape.prototype.moveDown = function()
+{
+    this.cubes.forEach((obj) => obj.ySpeed = 2 * scl);
+}
+
+Shape.prototype.normalSpeedY = function()
+{
+    this.cubes.forEach((obj) => obj.ySpeed = scl);
+}
+
+Shape.prototype.normalSpeedX = function()
+{
+    this.cubes.forEach((obj) => obj.xSpeed = 0);
+}
+
+Shape.prototype.pause = function(i)
+{
+    this.cubes.forEach((cube) => cube.ySpeed = i);
 }

@@ -14,3 +14,7 @@ let ranNum;
 let prevRanNum;
 
 let shapeNo = 0;
+let gameOver = false;
+
+let paused = false,
+    unpaused = false;
