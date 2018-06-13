@@ -2,13 +2,15 @@
 
 function keyPressed()
 {
-    if (keyCode === LEFT_ARROW) {
-        //setInterval(nodes[0].moveL, 100);
-        shape.moveL();
-    } else if (keyCode === RIGHT_ARROW) {
-        shape.moveR();
-    } else if(keyCode === DOWN_ARROW) {
-        shape.moveDown();
+    if (!disableKeys) {
+        if (keyCode === LEFT_ARROW) {
+            //setInterval(nodes[0].moveL, 100);
+            shape.moveL();
+        } else if (keyCode === RIGHT_ARROW) {
+            shape.moveR();
+        } else if(keyCode === DOWN_ARROW) {
+            shape.moveDown();
+        }
     }
 
     if (keyCode === 80) {
@@ -28,6 +30,8 @@ function keyReleased()
     } else if (keyCode === RIGHT_ARROW) {
         shape.normalSpeedX();
     } else if(keyCode === DOWN_ARROW) {
-        shape.normalSpeedY();
+        if (!disableKeys) {
+            shape.normalSpeedY();
+        }
     }
 }

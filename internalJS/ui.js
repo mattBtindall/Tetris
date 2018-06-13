@@ -6,6 +6,7 @@ function setup()
     frameRate(5);
     preloadFonts();
     shape = new Shape('cube');
+    //shape.getHighestCube();
 }
 
 function preloadFonts() 
@@ -17,22 +18,10 @@ function draw()
 {
     background('#ccc');
     gridLines();
-    shape.update();
-    shape.show();
-    shape.getCoordinates();
-    shape.hitBottom();
-    shape.hitCube();
-    //shape.shapeCollide();
-    shape.isMoved();
-    shape.setPrevCoordinates();
+    shape.draw();
+
+    globalCubes.forEach(cube => cube.show()); // Show all cubes at the bottom
     pauseText();
-
-    // globalCubes.forEach((cube) => cube.show());
-    globalCubes.forEach((cube) => {
-        //cube.drawTest();
-        cube.show()
-    });
-
 }
 
 function gridLines()
@@ -40,7 +29,7 @@ function gridLines()
     let gridIncW = scl;
     let gridIncH = scl;
 
-    stroke(255, 204, 0);
+    stroke('rgba(255,204,0,.65)');
     strokeWeight(2);
 
     for (let i = 0; i < noRows; i++) {
@@ -104,35 +93,42 @@ function getColour( colour, opac)
 
 function pauseText()
 {
+    let canvas =  document.querySelector('#defaultCanvas0');
     if (paused) {
-        textSize(75);
-        fill(240, 240, 240);
-        textFont('VT323');
+        mainFontStyle();
         text('Paused', scl*1.5, scl*10);
         unpaused = true;
-        let canvas = document.querySelector('#defaultCanvas0').style.filter = "grayscale(100%)";
-
-        // -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-        // filter: grayscale(100%);
-        // canvas.style.filter = "grayscale(100%)";
-
+        //canvas.style.filter = "grayscale(100%)";
+        canvas.style.filter = "grayscale(100%) blur(.5px)";
+        disableKeys = true;
     }
     else if (!paused && unpaused) {
         let i = 4;
         unpaused = false;
         let interval = setInterval(() => {
             if (i >= 2) {
-                i--;
-                console.log('yup');
-                textSize(100);
-                fill(240, 240, 240);
-                text(i.toString(), ((canvasWidth/2)-scl), ((canvasHeight/2)-scl));
+                if (paused) { // check if paused is hit again
+                    clearInterval(interval);
+                } else {
+                    i--;
+                    mainFontStyle();
+                    text(i.toString(), ((canvasWidth/2)-scl), ((canvasHeight/2)-scl));
+                }
             } else if (i === 1) {
                 clearInterval(interval);
-                let canvas = document.querySelector('#defaultCanvas0').style.filter = "none";
+                canvas.style.filter = "none";
                 shape.pause( scl);
+                disableKeys = false;
             }
         }, 1000);
     }
 }
 
+function mainFontStyle()
+ {
+    textSize(75);
+    fill(240, 240, 240);
+    textFont('VT323');
+    stroke(51);
+    strokeWeight(10);
+}

@@ -27,7 +27,7 @@ Cube.prototype.show = function()
 {
     fill(this.colour);
     strokeWeight(2);
-    stroke(0);
+    noStroke();
     rect(this.x, this.y, scl, scl);
 }
 
