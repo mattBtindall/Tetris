@@ -20,3 +20,8 @@ let paused = false,
     unpaused = false;
 
 let disableKeys = false;
+
+function countInArray(array, target) 
+{
+    return array.filter(item => item == target).length;
+}

@@ -96,9 +96,8 @@ function pauseText()
     let canvas =  document.querySelector('#defaultCanvas0');
     if (paused) {
         mainFontStyle();
-        text('Paused', scl*1.5, scl*10);
+        text('Paused', scl, scl*10);
         unpaused = true;
-        //canvas.style.filter = "grayscale(100%)";
         canvas.style.filter = "grayscale(100%) blur(.5px)";
         disableKeys = true;
     }
@@ -107,6 +106,7 @@ function pauseText()
         unpaused = false;
         let interval = setInterval(() => {
             if (i >= 2) {
+                console.log(i);
                 if (paused) { // check if paused is hit again
                     clearInterval(interval);
                 } else {
@@ -126,7 +126,8 @@ function pauseText()
 
 function mainFontStyle()
  {
-    textSize(75);
+    let fontSize = canvasWidth/3;
+    textSize(fontSize);
     fill(240, 240, 240);
     textFont('VT323');
     stroke(51);

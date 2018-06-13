@@ -73,8 +73,8 @@ Cube.prototype.collideL = function()
 
 Cube.prototype.collideR = function() 
 {
-    for (let i = 0;i < globalCubes.length; i++) {
-        if (this.x >= canvasWidth -scl || this.x + scl === globalCubes[i].x && this.y === globalCubes[i].y) {
+    for (let i = 0; i < globalCubes.length; i++) {
+        if (this.x >= (canvasWidth - scl) || this.x + scl === globalCubes[i].x && this.y === globalCubes[i].y) {
             console.log('dont do it mister please');
             return true;
         } 

@@ -20,13 +20,11 @@ function Shape( shape)
     this.stopR = false;
 
     this.silhouetteY = [];
-    // this.temp;
-    // this.tempY;
-    // this.tempX;
-    //this.distance;
 
+    //this.createTee();
     //this.createSquare();
     this.createLine();
+    //this.createLShape();
     this.getCoordinates();
     this.defaultsilhouette();
     this.getHighestCube();
@@ -39,6 +37,7 @@ Shape.prototype.createShape = function( x, y, colour)
     }
 }
 
+// For all shapes the starting point (top left box from diagram) = scl*4
 Shape.prototype.createSquare = function()
 {
     let xTemp = scl*5;
@@ -50,7 +49,7 @@ Shape.prototype.createSquare = function()
 
 Shape.prototype.createLine = function()
 {
-    let xTemp = scl*5;
+    let xTemp = scl*4;
     let x = [xTemp,xTemp,xTemp,xTemp];
     let y = [-scl*4,-scl*3,-scl*2,-scl];
     this.createShape( x, y, 'yellow');
@@ -58,7 +57,10 @@ Shape.prototype.createLine = function()
 
 Shape.prototype.createLShape = function()
 {
-    
+    let xTemp = scl*5;
+    let x = [xTemp-scl,xTemp,xTemp,xTemp];
+    let y = [-scl*3,-scl*3,-scl*2,-scl];
+    this.createShape( x, y, 'purple')
 }
 
 Shape.prototype.createJShape = function()
@@ -68,7 +70,10 @@ Shape.prototype.createJShape = function()
 
 Shape.prototype.createTee = function()
 {
-
+    let xTemp = scl*4;
+    let x = [xTemp,xTemp+scl,xTemp+scl,xTemp+(scl*2)];
+    let y = [-scl,-scl*2,-scl,-scl];
+    this.createShape( x, y, 'green');
 }
 
 Shape.prototype.createZShape = function()
@@ -84,7 +89,6 @@ Shape.prototype.createSShape = function()
 Shape.prototype.defaultsilhouette = function()
 {   
     this.cubes.forEach(( cube, i) => {
-        console.log(cube.y + (canvasHeight - scl));
         this.silhouetteY[i] = cube.y + canvasHeight;
     });
 }
@@ -93,7 +97,6 @@ Shape.prototype.show = function()
 {
     this.cubes.forEach(( cube, i) => {
         cube.show();
-        //this.silhouette[i].show();
     });
 }
 
@@ -110,11 +113,19 @@ Shape.prototype.getCoordinates = function()
     this.y = [];
     //let yTemp = this.cubes.map(( i) => i.y); // Create temporary array to hold y values 
     let yTemp = this.cubes.map( cube => cube.y);
-    this.cubes.forEach(( obj, i) => {
-        let roundedY = Math.round((obj.y + scl) * 100) / 100;
-        if (yTemp.indexOf(roundedY) === -1) {
-            this.x.push(Math.round(obj.x * 100) / 100);
-            this.y.push(Math.round((obj.y+scl) * 100) / 100);
+    let xTemp = this.cubes.map( cube => cube.x);
+    // this.cubes.forEach(( obj, i) => {
+    //     let roundedY = Math.round((obj.y + scl) * 100) / 100;
+    //     if (yTemp.indexOf(roundedY) === -1) {
+    //         this.x.push(Math.round(obj.x * 100) / 100);
+    //         this.y.push(Math.round((obj.y+scl) * 100) / 100);
+    //     }
+    // });
+    this.cubes.forEach( cube => {
+        let roundedY = Math.round((cube.y + scl) * 100) / 100;       
+        if (countInArray(xTemp, cube.x) === 1 || yTemp.indexOf(roundedY) === -1) { // Shape on own or Shape at bottom
+            this.x.push(Math.round(cube.x * 100) / 100);
+            this.y.push(Math.round((cube.y+scl) * 100) / 100);
         }
     });
 }
@@ -132,6 +143,8 @@ Shape.prototype.isMoved = function()
     this.x.forEach(( x, i) => {
         if ((x - this.prevX[i]) > 0) { // Moved right 
             this.getHighestCube();
+            console.log(this.cubes.forEach( cube => console.log(cube.x)));
+            console.log(canvasWidth);
             if (this.spaceTestR()) {
                 this.normalSpeedX();
             }
