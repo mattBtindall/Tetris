@@ -63,28 +63,29 @@ function getColour( colour, opac)
     switch (colour)
     {
         case 'red':
-            colTemp = 'rgba(146, 43, 33,'+opac+')';
+            colTemp = `rgba(192, 57, 43,${opac})`; 
             break;
-        case 'green':
-            colTemp = 'rgba(35, 155, 86,'+opac+')';
+        case 'lightGreen':
+            colTemp = `rgba(46, 204, 113,${opac})`; 
             break;
-        case 'blue':
-            colTemp = 'rgba(40, 116, 166,'+opac+')';
+        case 'darkGreen' :
+            colTemp = `rgba(34, 153, 84,${opac})`; 
+            break;
+        case 'lightBlue':
+            colTemp = `rgba(41, 128, 185,${opac})`; 
+            break;
+        case 'darkBlue':
+            colTemp = `rgba(31, 97, 141,${opac})`; 
             break;
         case 'yellow':
-            colTemp = 'rgba(183, 149, 11,'+opac+')';
+            colTemp = `rgba(212, 172, 13,${opac})`; 
             break;
         case 'orange':
-            colTemp = 'rgba(160, 64, 0,'+opac+')';
+            colTemp = `rgba(211, 84, 0,${opac})`; 
             break;
         case 'purple' : 
-            colTemp = 'rgba(108, 52, 131,'+opac+')';
+            colTemp = `rgba(136, 78, 160,${opac})`; 
             break;
-        case 'grey' :
-            colTemp = 'rgba(236, 240, 241,'+opac+')';
-            break;
-        default:
-            colTemp = 'rgba(0, 21, 45,'+opac+')';
     }
     return colTemp;
 }

@@ -22,9 +22,12 @@ function Shape( shape)
     this.silhouetteY = [];
 
     //this.createTee();
-    //this.createSquare();
-    this.createLine();
+    this.createSquare();
+    //this.createLine();
     //this.createLShape();
+    //this.createJShape();
+    //this.createZShape();
+    //this.createSShape();
     this.getCoordinates();
     this.defaultsilhouette();
     this.getHighestCube();
@@ -37,6 +40,7 @@ Shape.prototype.createShape = function( x, y, colour)
     }
 }
 
+// Create Different Shapes
 // For all shapes the starting point (top left box from diagram) = scl*4
 Shape.prototype.createSquare = function()
 {
@@ -60,12 +64,15 @@ Shape.prototype.createLShape = function()
     let xTemp = scl*5;
     let x = [xTemp-scl,xTemp,xTemp,xTemp];
     let y = [-scl*3,-scl*3,-scl*2,-scl];
-    this.createShape( x, y, 'purple')
+    this.createShape( x, y, 'darkBlue');
 }
 
 Shape.prototype.createJShape = function()
 {
-
+    let xTemp = scl*5;
+    let x = [xTemp,xTemp+scl,xTemp,xTemp];
+    let y = [-scl*3,-scl*3,-scl*2,-scl];
+    this.createShape( x, y, 'lightBlue');
 }
 
 Shape.prototype.createTee = function()
@@ -73,17 +80,21 @@ Shape.prototype.createTee = function()
     let xTemp = scl*4;
     let x = [xTemp,xTemp+scl,xTemp+scl,xTemp+(scl*2)];
     let y = [-scl,-scl*2,-scl,-scl];
-    this.createShape( x, y, 'green');
+    this.createShape( x, y, 'purple');
 }
 
 Shape.prototype.createZShape = function()
 {
-
+    let x = [scl*4,scl*5,scl*5,scl*6];
+    let y = [-scl*2,-scl*2,-scl,-scl];
+    this.createShape( x, y, 'darkGreen');
 }
 
 Shape.prototype.createSShape = function()
 {
-
+    let x = [scl*4,scl*5,scl*5,scl*6];
+    let y = [-scl,-scl,-scl*2,-scl*2];
+    this.createShape( x, y, 'lightGreen');
 }
 
 Shape.prototype.defaultsilhouette = function()
@@ -143,8 +154,6 @@ Shape.prototype.isMoved = function()
     this.x.forEach(( x, i) => {
         if ((x - this.prevX[i]) > 0) { // Moved right 
             this.getHighestCube();
-            console.log(this.cubes.forEach( cube => console.log(cube.x)));
-            console.log(canvasWidth);
             if (this.spaceTestR()) {
                 this.normalSpeedX();
             }
