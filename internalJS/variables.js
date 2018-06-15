@@ -4,7 +4,9 @@ let globalCubes = [];
 let shape; // Global shape object
 
 // Canvas
-let canvasHeight =  Math.round((window.innerHeight*.7) * 100) / 100,
+//let canvasHeight =  Math.round((window.innerHeight*.7) * 100) / 100,
+    //canvasWidth = Math.round((canvasHeight/2) * 100) / 100,
+let canvasHeight =  Math.round((window.innerHeight*.9) * 100) / 100,
     canvasWidth = Math.round((canvasHeight/2) * 100) / 100,
     noRows = 10,
     noCols = 20,

@@ -5,7 +5,7 @@ function setup()
     createCanvas( canvasWidth, canvasHeight);
     frameRate(5);
     preloadFonts();
-    shape = new Shape('cube');
+    shape = new Shape();
     //shape.getHighestCube();
 }
 
@@ -43,18 +43,18 @@ function gridLines()
     }
 }
 
-function getNextShape() // Get next shape at random
+function ranNo() // Get next shape at random
 {
-    let min = 1,
-        max = 7;
+    let min = 0,
+        max = 6;
     do
     {  
         ranNum = getRandomInt(min, max);
-        if (ranNum === prevranNum) {
+        if (ranNum === prevRanNum) {
             ranNum = getRandomInt(min ,max);
         }
-    } while (ranNum === prevranNum);
-    prevranNum = ranNum;
+    } while (ranNum === prevRanNum);
+    prevRanNum = ranNum;
 }
 
 function getColour( colour, opac)
@@ -89,8 +89,6 @@ function getColour( colour, opac)
     }
     return colTemp;
 }
-
-// 
 
 function pauseText()
 {

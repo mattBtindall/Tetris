@@ -1,10 +1,10 @@
 "use strict";
 
-function Shape( shape)
+function Shape( s)
 {
     shapeNo++;
 
-    this.shape = shape;
+    //this.shape = shape;
     this.cubes = [];
     this.silhouette = [];
     this.colour = null;
@@ -21,16 +21,40 @@ function Shape( shape)
 
     this.silhouetteY = [];
 
-    //this.createTee();
-    this.createSquare();
-    //this.createLine();
-    //this.createLShape();
-    //this.createJShape();
-    //this.createZShape();
-    //this.createSShape();
+    this.getRandomShape();
     this.getCoordinates();
     this.defaultsilhouette();
     this.getHighestCube();
+}
+
+Shape.prototype.getRandomShape = function( )
+{
+    ranNo();
+    console.log(ranNum);
+    switch (ranNum)
+    {
+        case 0 :
+            this.createSquare();
+            break;
+        case 1 :
+            this.createLine();
+            break;
+        case 2 : 
+            this.createTee();
+            break;
+        case 3 : 
+            this.createLShape();
+            break;
+        case 4 : 
+            this.createJShape();
+            break;
+        case 5 : 
+            this.createSShape();
+            break;
+        case 6 :
+            this.createZShape();
+            break;
+    }
 }
 
 Shape.prototype.createShape = function( x, y, colour)
@@ -236,6 +260,7 @@ Shape.prototype.hit = function()
     }
     if (!gameOver) {
         shape = new Shape('cube');
+        //this.getRandomShape( ranNo());
     }
 }
 
@@ -258,14 +283,13 @@ Shape.prototype.getHighestCube = function()
 {
     console.log('called');
     let temp = null;
-    
-    this.x.forEach(( x, i) => {
+    this.x.forEach(( cubeX, i) => {
         globalCubes.forEach(( gCube) => {
-            if (x === gCube.x && temp === null) {
+            if (cubeX === gCube.x && temp === null) {
                 temp = gCube;
-            } else if (x === gCube.x && gCube.y < temp.y && this.y[i] < gCube.y) {
+            } else if (cubeX === gCube.x && gCube.y < temp.y) {
                 temp = gCube;
-                let distance = gCube.y - this.y[i];
+                let distance = temp.y - this.y[i];
                 this.silhouetteY = this.cubes.map( cube => cube.y + distance);
             }
         });
@@ -274,12 +298,14 @@ Shape.prototype.getHighestCube = function()
 
 Shape.prototype.drawsilhouette = function()
 {
-    let c = 'rgba(255,0,0,.25)';
-    stroke(c);
+    let c = 'rgba(240,0,0,.35)';
+    //stroke(c);
     fill(c);
-    strokeWeight(1);
+    //strokeWeight(1);
+    stroke('#ccc');
+    strokeWeight(.5);
     this.cubes.forEach(( cube, i) => {
-        rect(cube.x,this.silhouetteY[i],scl,scl);
+        rect(cube.x,this.silhouetteY[i],scl,scl,5);
     });
 }
 

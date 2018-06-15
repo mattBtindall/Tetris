@@ -26,9 +26,10 @@ Cube.prototype.update = function()
 Cube.prototype.show = function()
 {
     fill(this.colour);
-    strokeWeight(2);
-    noStroke();
-    rect(this.x, this.y, scl, scl);
+    //noStroke();
+    stroke('#ccc');
+    strokeWeight(.5);
+    rect(this.x, this.y, scl, scl, 5);
 }
 
 Cube.prototype.drawTest = function()
