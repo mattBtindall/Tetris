@@ -1,13 +1,29 @@
 "use strict";
 
-let shapes = [];
+let globalCubes = [];
+let shape; // Global shape object
 
-let canvasHeight =  window.innerHeight*.7;
-let canvasWidth = canvasHeight/2;
+// Canvas
+//let canvasHeight =  Math.round((window.innerHeight*.7) * 100) / 100,
+    //canvasWidth = Math.round((canvasHeight/2) * 100) / 100,
+let canvasHeight =  Math.round((window.innerHeight*.9) * 100) / 100,
+    canvasWidth = Math.round((canvasHeight/2) * 100) / 100,
+    noRows = 10,
+    noCols = 20,
+    scl = Math.round((canvasHeight / noCols) * 100) / 100;
 
-let noRows = 10;
-let noCols = 20;
+let ranNum;
+let prevRanNum;
 
-let scl = canvasHeight / noCols;
+let shapeNo = 0;
+let gameOver = false;
 
+let paused = false,
+    unpaused = false;
 
+let disableKeys = false;
+
+function countInArray(array, target) 
+{
+    return array.filter(item => item == target).length;
+}
