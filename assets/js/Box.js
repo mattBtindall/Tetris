@@ -2,21 +2,34 @@
 
 class Box {
   constructor(spec) {
-    console.log('box instantiated');
-
     const { x, y } = spec;
-    this.x = x;
-    this.y = y;
+    this.coordinates = createVector(x, y);
+    this.colour = color(255, 255, 255);
     this.xspeed = 0;
     this.yspeed = 1;
+    this.yspeedMultiplier = 1;
   }
 
-  update() {
-    this.x = this.x + this.xspeed;
-    this.y = this.y + this.yspeed;
+  direction(x, y) {
+    this.xspeed = x;
+    this.yspeed = y;
+  }
+
+  moveX() {
+    this.coordinates.x += this.xspeed*G.scl;
+    this.coordinates.x = constrain(this.coordinates.x, 0, width-G.scl);
+  }
+
+  moveY() {
+    this.coordinates.y += G.scl*this.yspeedMultiplier;
+
+    // remove this after adding in a collide function
+    this.coordinates.y = constrain(this.coordinates.y, 0, height-G.scl); 
   }
 
   show() {
-    rect(this.x, this.y, Global.scl, Global.scl);
+    fill(this.colour);
+    stroke(this.colour);
+    rect(this.coordinates.x, this.coordinates.y, G.scl, G.scl);
   }
 }

@@ -1,7 +1,14 @@
-const Global = (function () {
-  const scl = 20;
+const G = (function () {
+  const scl = 30,
+    gridCoordinates = {x: [0], y: [0]};
+
+  let box,
+    frameInc = 0;
 
   return {
-    scl
+    scl,
+    box,
+    frameInc,
+    gridCoordinates
   };
 })();
