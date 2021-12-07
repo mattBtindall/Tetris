@@ -1,4 +1,9 @@
 'use strict';
+let xPos;
+const testFunc = () => {
+  xPos = 150;
+  G.speedDivider = 2;
+}
 
 function setGrid() {
   const noWidthLines = width / G.scl;
@@ -7,12 +12,12 @@ function setGrid() {
   for (let i = 1; i < noWidthLines; i++) {
     G.gridCoordinates.x.push(G.gridCoordinates.x[i-1]+G.scl);
   }
-  G.gridCoordinates.x[G.gridCoordinates.x.length] = G.gridCoordinates.x[G.gridCoordinates.x.length-1]+G.scl; 
+  G.gridCoordinates.x.shift(); // removes the 0 from the start
 
   for (let i = 1; i < noHeightLines; i++) {
     G.gridCoordinates.y.push(G.gridCoordinates.y[i-1]+G.scl);
   }
-  G.gridCoordinates.y[G.gridCoordinates.y.length] = G.gridCoordinates.y[G.gridCoordinates.y.length-1]+G.scl; 
+  G.gridCoordinates.y.shift(); 
 }
 
 function drawGrid() {
@@ -30,40 +35,28 @@ function drawGrid() {
 }
 
 function setup() {
-  G.box = new Box({x: 150, y: -G.scl});
   createCanvas(300, 600);
   frameRate(60);
+  xPos = G.scl * 3;
+  G.cube = new Cube({x: xPos, y: -G.scl, colour: 'rgb(108, 52, 131)', shadowColour: 'rgb(187, 143, 206)'});
   setGrid();
 }
 
 function draw() {
-  background(51);
-  G.frameInc = (G.frameInc + 1) % 60; 
-
+  background('#ccc');
+  G.frameInc = (G.frameInc + 1) % 60; // increment and wrap 
   drawGrid();
 
-  if (G.frameInc % 5 === 0) {
-    G.box.moveX();    
+  if (G.frameInc % (60 / G.speedDivider) === 0) {
+    G.cube.moveY();
   }
 
-  if (G.frameInc % 30 === 0) {
-    G.box.moveY();
-  }
-
-  G.box.show();
+  G.cube.showShadow();
+  G.cube.show();
+  G.cubes.forEach(cube => cube.show());
 }
 
-function keyPressed() {
-  if (keyCode === UP_ARROW) {
-    // when spinning the shape do so here
-  } else if (keyCode === DOWN_ARROW) {
-    G.box.yspeedMultiplier = 6;
-  } else if (keyCode === RIGHT_ARROW) {
-    // detect how long the arrow is held down for, if it is below a threshold then only move one square, if above threshold then move rapidly to the right 
-    // G.box.xspeed = 2;
-    G.box.coordinates.x+= G.scl;
-  } else if (keyCode === LEFT_ARROW) {
-    // G.box.xspeed = -2;
-    G.box.coordinates.x-= G.scl;
-  }
+function newCube() {
+  G.cubes.push(G.cube);
+  G.cube = new Cube({x: xPos, y: -G.scl, colour: 'rgb(108, 52, 131)', shadowColour: 'rgb(187, 143, 206)'});
 }
