@@ -10,7 +10,7 @@ class Shape {
     this.shadowOpacity = 1;
     this.getRandomShape();
     this.calcShadow();
-    this.cubes.forEach(cube => console.log(cube.coordinates.y));
+    this.toSlam = false;
   }
 
   // Get random number that isn't the same as the last two
@@ -185,10 +185,10 @@ class Shape {
     });
 
     this.cubes.forEach(cube => {  // check dinstance from bottom 
-      let distanceFromBottom = cube.coordinates.y < 0 ? height + Math.abs(cube.coordinates.y) : height - cube.coordinates.y; // when cube starts it y is a minus value
+      let distanceFromBottom = cube.coordinates.y < 0 ? height + Math.abs(cube.coordinates.y) : height - cube.coordinates.y; // when cube starts its y is a minus value
       if (distanceFromBottom < yTemp) yTemp = distanceFromBottom;
     });    
- 
+
     this.cubes.forEach(cube => {
       cube.shadow.coordinates.x = cube.coordinates.x;
       cube.shadow.coordinates.y = cube.coordinates.y - G.scl + yTemp;
@@ -200,9 +200,10 @@ class Shape {
   }
 
   slam() {
-    // this.calcShadow();
+    // speed the whole thing up
     this.disableControls = true;
-    this.cubes.forEach(cube => cube.slam());
+    G.speedDivider = 60;
+    this.toSlam = true;
   }
 
   show() {

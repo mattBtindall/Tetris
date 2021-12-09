@@ -61,13 +61,6 @@ class Cube {
     this.coordinates.x += direction;
   }
 
-  slam() { 
-    //  This needs to be done on a shape basis, one of the other cubes might collide with another cube
-    this.coordinates.y = this.shadow.coordinates.y;
-    // this.moveY();
-    // moveY until this.y === shadow.y (store the shadow.y in a temp val if need be)
-  }
-
   showShadow() {
     fill(this.shadow.colour);
     stroke('rgb(255, 204, 0)');

@@ -49,7 +49,7 @@ function draw() {
 }
 
 function createNewShape() {
-  console.log('creating new shape...');
+  if (G.shape.toSlam) G.speedDivider = 1;
   G.shape.cubes.forEach(cube => G.cubes.push(cube));
   G.shape = new Shape();
 }

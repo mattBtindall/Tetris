@@ -1,18 +1,19 @@
 const G = (function () {
   const scl = 30,
-    gridCoordinates = {x: [0], y: [0]};
+    gridCoordinates = { x: [0], y: [0] };
 
-  const flipSign = (n) => n - (n * 2),
-    getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+  const flipSign = (n) => n - n * 2,
+    getRandomInt = (min, max) =>
+      Math.floor(Math.random() * (max - min + 1)) + min;
 
   let shape,
     cubes = [],
     frameInc = 0,
     arrowPressedFlags = {
       left: false,
-      right: false
+      right: false,
     },
-    speedDivider = .5; // the higher the faster
+    speedDivider = 1; // the higher the faster
 
   return {
     scl,
@@ -23,6 +24,6 @@ const G = (function () {
     arrowPressedFlags,
     speedDivider,
     flipSign,
-    getRandomInt
+    getRandomInt,
   };
 })();
