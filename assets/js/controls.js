@@ -1,14 +1,21 @@
 function keyPressed() {
-  if (keyCode === UP_ARROW) {
-    // when spinning the shape do so here
-  } else if (keyCode === DOWN_ARROW) {
-    G.cube.yspeedMultiplier = 6;
-  } else if (keyCode === RIGHT_ARROW) {
-    G.cube.moveXHandler('moveRight', 'right');
-  } else if (keyCode === LEFT_ARROW) {
-    G.cube.moveXHandler('moveLeft', 'left');
-  } else if (keyCode === 32) {
-    G.cube.slam();
+  switch (keyCode) {
+    case UP_ARROW: 
+      // spin shape here
+      console.log('spinning shape');
+      break;
+    case DOWN_ARROW: 
+      G.speedDivider = 15;
+      break;
+    case RIGHT_ARROW: 
+      G.shape.moveXHandler('collideRight', G.scl, 'right');
+      break;
+    case LEFT_ARROW:
+      G.shape.moveXHandler('collideLeft', -G.scl, 'left');
+      break;
+    case 32: // spacebar
+      G.shape.slam();
+      break;
   }
 }
 
@@ -17,5 +24,7 @@ function keyReleased() {
     G.arrowPressedFlags.right = false;
   } else if (keyCode === LEFT_ARROW) {
     G.arrowPressedFlags.left = false;
+  } else if (keyCode === DOWN_ARROW) {
+    G.speedDivider = 1;
   }
 }

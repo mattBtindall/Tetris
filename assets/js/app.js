@@ -1,10 +1,3 @@
-'use strict';
-let xPos;
-const testFunc = () => {
-  xPos = 150;
-  G.speedDivider = 2;
-}
-
 function setGrid() {
   const noWidthLines = width / G.scl;
   const noHeightLines = height / G.scl; 
@@ -37,8 +30,7 @@ function drawGrid() {
 function setup() {
   createCanvas(300, 600);
   frameRate(60);
-  xPos = G.scl * 3;
-  G.cube = new Cube({x: xPos, y: -G.scl, colour: 'rgb(108, 52, 131)', shadowColour: 'rgb(187, 143, 206)'});
+  G.shape = new Shape();
   setGrid();
 }
 
@@ -48,15 +40,16 @@ function draw() {
   drawGrid();
 
   if (G.frameInc % (60 / G.speedDivider) === 0) {
-    G.cube.moveY();
+    G.shape.moveY();
   }
 
-  G.cube.showShadow();
-  G.cube.show();
-  G.cubes.forEach(cube => cube.show());
+  G.shape.showShadow(); // display shape shadow - below the actual shape
+  G.shape.show(); // display the shape
+  G.cubes.forEach(cube => cube.show()); // display all the cubes that have landed
 }
 
-function newCube() {
-  G.cubes.push(G.cube);
-  G.cube = new Cube({x: xPos, y: -G.scl, colour: 'rgb(108, 52, 131)', shadowColour: 'rgb(187, 143, 206)'});
+function createNewShape() {
+  console.log('creating new shape...');
+  G.shape.cubes.forEach(cube => G.cubes.push(cube));
+  G.shape = new Shape();
 }
