@@ -15,7 +15,7 @@ function setGrid() {
 
 function drawGrid() {
   stroke(255, 204, 0);
-  strokeWeight(2.5);
+  strokeWeight(1);
 
   G.gridCoordinates.x.forEach(xCoor => {
     line(xCoor, 0, xCoor, height); // line(x1, y1, x2, y2)
@@ -43,7 +43,6 @@ function draw() {
     G.shape.moveY();
   }
 
-  G.shape.showShadow(); // display shape shadow - below the actual shape
   G.shape.show(); // display the shape
   G.cubes.forEach(cube => cube.show()); // display all the cubes that have landed
 }

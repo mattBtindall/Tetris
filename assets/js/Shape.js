@@ -207,6 +207,7 @@ class Shape {
   }
 
   show() {
+    G.shape.showShadow(); // display shape shadow - below the actual shape
     this.cubes.forEach(cube => cube.show());
   }
 }

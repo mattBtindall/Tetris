@@ -17,9 +17,7 @@ class Cube {
   }
 
   collideY() {
-    if (this.coordinates.y >= height-G.scl) { // see if hit the bottom
-      return true;
-    }
+    if (this.coordinates.y >= height-G.scl) return true; // see if hit the bottom
 
     for (const cube of G.cubes) { // see if landed ontop of another cube
       if (this.coordinates.x === cube.coordinates.x && this.coordinates.y === cube.coordinates.y - G.scl) 

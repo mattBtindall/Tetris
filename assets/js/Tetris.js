@@ -1,0 +1,11 @@
+class Tetris {
+  constructor() {
+
+  }
+
+  createNewShape() {
+
+  }
+
+  
+}
