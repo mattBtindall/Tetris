@@ -1,3 +1,5 @@
+'use strict';
+
 function keyPressed() {
   switch (keyCode) {
     case UP_ARROW: 
@@ -5,26 +7,26 @@ function keyPressed() {
       console.log('spinning shape');
       break;
     case DOWN_ARROW: 
-      G.speedDivider = 15;
+      Global.speedDivider = 15;
       break;
     case RIGHT_ARROW: 
-      G.shape.moveXHandler('collideRight', G.scl, 'right');
+      Global.shape.moveXHandler('collideRight', Global.scl, 'right');
       break;
     case LEFT_ARROW:
-      G.shape.moveXHandler('collideLeft', -G.scl, 'left');
+      Global.shape.moveXHandler('collideLeft', -Global.scl, 'left');
       break;
     case 32: // spacebar
-      G.shape.slam();
+      Global.shape.slam();
       break;
   }
 }
 
 function keyReleased() {
   if (keyCode === RIGHT_ARROW) {
-    G.arrowPressedFlags.right = false;
+    Global.arrowPressedFlags.right = false;
   } else if (keyCode === LEFT_ARROW) {
-    G.arrowPressedFlags.left = false;
+    Global.arrowPressedFlags.left = false;
   } else if (keyCode === DOWN_ARROW) {
-    G.speedDivider = 1;
+    Global.speedDivider = 1;
   }
 }
