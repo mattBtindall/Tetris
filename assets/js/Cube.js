@@ -31,6 +31,7 @@ class Cube {
 
   collideLeft() {
     if (this.coordinates.x <= 0) return true; // hit side
+    
     for (const cube of Global.cubes) { // hit another cube
       if (
         this.coordinates.x === cube.coordinates.x + Global.scl && 
@@ -43,6 +44,7 @@ class Cube {
 
   collideRight() {
     if (this.coordinates.x >= width-Global.scl) return true; // hit side
+
     for (const cube of Global.cubes) { // hit another cube
       if (
         this.coordinates.x === cube.coordinates.x - Global.scl &&

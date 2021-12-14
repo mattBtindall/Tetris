@@ -3,8 +3,7 @@
 function keyPressed() {
   switch (keyCode) {
     case UP_ARROW: 
-      // spin shape here
-      console.log('spinning shape');
+      Global.shape.rotate();
       break;
     case DOWN_ARROW: 
       Global.speedDivider = 15;
@@ -17,6 +16,9 @@ function keyPressed() {
       break;
     case 32: // spacebar
       Global.shape.slam();
+      break;
+    case 80: // the letter 'p'
+      Global.togglePause();
       break;
   }
 }

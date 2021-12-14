@@ -7,18 +7,19 @@ class Tetris {
     this.height = 600;
     this.noWidthLines;
     this.scl = 30;
-    this.flashFlag = null;
+    this.flashRow = [];
     this.gridCoordinates = { x: [0], y: [0] };
     this.shape;
-    this.cubes = [];
+    this.cubes = []; 
     this.frameInc = 0;
     this.rectBorderRadius = 5;
     this.arrowPressedFlags = {
       left: false,
       right: false,
     }
-    this.speedDivider = 1; // the higher the faster min: 1, max: 60
+    this.speedDivider = 1; // the higher the faster the cubes fall. min: 1, max: 60
     this.deleteRowWaitTime = 500; // MS
+    this.pause = false;
 
     this.utility = {
       getRandomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -65,17 +66,22 @@ class Tetris {
   // at end loop through the object seeing if any of the attributes add up to this.noWidthLines
   // if they do delete the row and move all the cubes that were above it down
   checkFullRow() {
-    const numberOfXPositions = {}; 
+    const numberOfXPositions = {}, rowsToDelete = [];
     for (let i = this.cubes.length - 1; i >= 0; --i) {
       if (numberOfXPositions.hasOwnProperty(this.cubes[i].coordinates.y)) {
         numberOfXPositions[this.cubes[i].coordinates.y]++;
         if (numberOfXPositions[this.cubes[i].coordinates.y] === this.noWidthLines) {
-          this.deleteRow(this.cubes[i].coordinates.y);
+          console.log('full row detected');
+          rowsToDelete.push(this.cubes[i].coordinates.y);
+          // this.deleteRow(this.cubes[i].coordinates.y);
         }
       } else {
         numberOfXPositions[this.cubes[i].coordinates.y] = 1;
       }
     }
+
+    rowsToDelete.sort((a, b) => a - b); // order so it deletes the smallest first 
+    rowsToDelete.forEach(row => this.deleteRow(row));
   }
 
   deleteRow(key) {
@@ -86,7 +92,7 @@ class Tetris {
       }
     }
     
-    this.flashFlag = {x: 0, y: key}
+    this.flashRow.push({x: 0, y: key});  
 
     // move all cubes that were above the delete row down one
     setTimeout(() => {
@@ -97,20 +103,33 @@ class Tetris {
     }, this.deleteRowWaitTime);
   }
 
-  flash() { // need to be able to flash multiple rows at once 
-    if (this.flashFlag) {
+  flash() {
+    if (this.flashRow.length !== 0) { 
       if (this.frameInc % 3 === 0) {
-        this.flashFlag.x += Global.scl;
+        this.flashRow.forEach(flashDetails => {
+          flashDetails.x += Global.scl;
 
-        if (this.flashFlag.x > width) {
-          this.flashFlag = null;
-          return;
-        }
+          if (flashDetails.x > width) {
+            this.flashRow = [];
+            return;
+          }
+        });
       }
       
       stroke('rgb(255, 204, 0)');
       fill('rgba(232, 232, 232, 1)');
-      rect(this.flashFlag.x, this.flashFlag.y, Global.scl, Global.scl, this.rectBorderRadius);
+      this.flashRow.forEach(flashDetails => 
+        rect(flashDetails.x, flashDetails.y, Global.scl, Global.scl, this.rectBorderRadius));
+    }
+  }
+
+  togglePause() {
+    if (this.pause) {
+      this.shape.disableControls = false; 
+      this.pause = false;
+    } else {
+      this.shape.disableControls = true;
+      this.pause = true;
     }
   }
 

@@ -6,12 +6,14 @@ class Shape {
 
   constructor() {
     console.log('creating shape object...');
+    this.shapeType;
+    this.positionState = 0;
     this.disableControls = false;
     this.cubes = [];
     this.shadowOpacity = 1;
+    this.slammed = false;
     this.getRandomShape();
     this.calcShadow();
-    this.slammed = false;
   }
 
   // Get random number that isn't the same as the last two
@@ -35,8 +37,9 @@ class Shape {
 
   // Take ran no and choose a shape at random
   getRandomShape() {
-    // switch (0) {
-    switch (this.getRanShapeNum()) {
+    this.shapeType = this.getRanShapeNum();
+    switch (2) {
+    // switch (this.shapeType) {
       case 0 :
         this.createSquare();
         break;
@@ -123,6 +126,54 @@ class Shape {
 
   // End of shapes //
 
+  rotate() {
+    const { scl } = Global;
+    console.log(this.positionState);
+    switch (this.positionState) {
+      case 0: 
+        this.cubes[0].coordinates.y += scl;
+        this.cubes[0].coordinates.x += scl * 2;        
+        // this.cubes[1].coordinates.y = y;     
+        this.cubes[1].coordinates.x += scl;
+        this.cubes[2].coordinates.y += -scl;
+        // this.cubes[2].coordinates.x = x;
+        this.cubes[3].coordinates.y += -scl * 2;
+        this.cubes[3].coordinates.x += -scl;
+        break;
+      case 1: 
+        this.cubes[0].coordinates.y += scl * 2 ;
+        this.cubes[0].coordinates.x += -scl;        
+        this.cubes[1].coordinates.y += scl;     
+        // this.cubes[1].coordinates.x = x;
+        // this.cubes[2].coordinates.y = y;
+        this.cubes[2].coordinates.x += scl;
+        this.cubes[3].coordinates.y += -scl;
+        this.cubes[3].coordinates.x += scl * 2;
+        break;
+      case 2: 
+        this.cubes[0].coordinates.y += -scl;
+        this.cubes[0].coordinates.x += -scl * 2;
+        // this.cubes[1].coordinates.y = y;
+        this.cubes[1].coordinates.x += -scl;
+        this.cubes[2].coordinates.y += scl;
+        // this.cubes[2].coordinates.x = x;
+        this.cubes[3].coordinates.y += scl * 2;
+        this.cubes[3].coordinates.x += scl;
+        break;
+      case 3: 
+        this.cubes[0].coordinates.y += -scl * 2;
+        this.cubes[0].coordinates.x += scl;
+        this.cubes[1].coordinates.y += -scl;
+        // this.cubes[1].coordinates.x = x;
+        // this.cubes[2].coordinates.y = y;
+        this.cubes[2].coordinates.x += -scl;
+        this.cubes[3].coordinates.y += scl;
+        this.cubes[3].coordinates.x += -scl * 2;
+    }
+    this.positionState = (this.positionState + 1) % 4; // increment and wrap 
+    this.calcShadow();
+  }
+
   // move the cube by the Global.scl
   // if the button is held down for more than 300ms the cube gets moved by Global.scl every 55ms
   moveXHandler(collideMethod, moveValue, direction) {
@@ -208,7 +259,7 @@ class Shape {
   }
 
   show() {
-    Global.shape.showShadow(); // display shape shadow - below the actual shape
+    Global.shape.showShadow(); // display shape shadow - behind the actual shape
     this.cubes.forEach(cube => cube.show());
   }
 }
