@@ -71,4 +71,9 @@ class Cube {
         stroke('rgb(255, 204, 0)');
         rect(this.coordinates.x, this.coordinates.y, Global.scl, Global.scl, Global.rectBorderRadius);
     }
+
+    setCoordinates(xn, yn = null) {
+        this.coordinates.x += xn;
+        this.coordinates.y += yn ? yn : xn;
+    }
 }

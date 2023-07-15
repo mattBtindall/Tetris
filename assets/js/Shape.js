@@ -38,8 +38,8 @@ class Shape {
     // Take ran no and choose a shape at random
     getRandomShape() {
         this.shapeType = this.getRanShapeNum();
-        switch (2) {
-            // switch (this.shapeType) {
+        // switch (1) {
+        switch (this.shapeType) {
             case 0:
                 this.createSquare();
                 break;
@@ -75,52 +75,52 @@ class Shape {
     // For all shapes the starting point (top left box from diagram) = Global.scl*4
 
     createSquare() {
-        const xTemp = Global.scl * 5;
+        const xTemp = 5 * Global.scl;
         const yTemp = -Global.scl;
         const x = [xTemp, xTemp + Global.scl, xTemp, xTemp + Global.scl];
-        const y = [yTemp, yTemp, yTemp * 2, yTemp * 2];
+        const y = [yTemp, yTemp, 2 * yTemp, 2 * yTemp];
         this.createShape(x, y, 'rgb(203, 67, 53)', `rgba(241, 148, 138, ${this.shadowOpacity})`); // red
     }
 
     createLine() {
-        const xTemp = Global.scl * 4;
+        const xTemp = 4 * Global.scl;
         const x = [xTemp, xTemp, xTemp, xTemp];
-        const y = [-Global.scl * 4, -Global.scl * 3, -Global.scl * 2, -Global.scl];
+        const y = [-4 * Global.scl, -3 * Global.scl, -2 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(214, 137, 16)', `rgba(245, 176, 65, ${this.shadowOpacity})`); // orange
         // this.createShape( x, y, 'rgb(186, 74, 0 )', `rgba(237, 187, 153, ${this.shadowOpacity})`); // burnt orange
         // this.createShape( x, y, 'rgb(212, 172, 13 )', `rgba(247, 220, 111 , ${this.shadowOpacity})`); // yellow
     }
 
     createLShape() {
-        const xTemp = Global.scl * 5;
+        const xTemp = 5 * Global.scl;
         const x = [xTemp - Global.scl, xTemp, xTemp, xTemp];
-        const y = [-Global.scl * 3, -Global.scl * 3, -Global.scl * 2, -Global.scl];
+        const y = [-3 * Global.scl, -3 * Global.scl, -2 * Global.scl, -Global.scl];
         this.createShape(x, y, 'rgb(31, 97, 141)', `rgba(127, 179, 213, ${this.shadowOpacity})`); // dark blue
     }
 
     createJShape() {
-        const xTemp = Global.scl * 5;
+        const xTemp = 5 * Global.scl;
         const x = [xTemp, xTemp + Global.scl, xTemp, xTemp];
-        const y = [-Global.scl * 3, -Global.scl * 3, -Global.scl * 2, -Global.scl];
+        const y = [-3 * Global.scl, -3 * Global.scl, -2 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(41, 128, 185)', `rgba(169, 204, 227, ${this.shadowOpacity})`); // light blue
     }
 
     createTee() {
-        const xTemp = Global.scl * 4;
+        const xTemp = 4 * Global.scl;
         const x = [xTemp, xTemp + Global.scl, xTemp + Global.scl, xTemp + (Global.scl * 2)];
-        const y = [-Global.scl, -Global.scl * 2, -Global.scl, -Global.scl];
+        const y = [-1 * Global.scl, -2 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(136, 78, 160)', `rgba(195, 155, 211, ${this.shadowOpacity})`); // purple
     }
 
     createZShape() {
-        const x = [Global.scl * 4, Global.scl * 5, Global.scl * 5, Global.scl * 6];
-        const y = [-Global.scl * 2, -Global.scl * 2, -Global.scl, -Global.scl];
+        const x = [4 * Global.scl, 5 * Global.scl, 5 * Global.scl, 6 * Global.scl];
+        const y = [-2 * Global.scl, -2 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(34, 153, 84)', `rgba(169, 223, 191, ${this.shadowOpacity})`); // dark green
     }
 
     createSShape() {
-        const x = [Global.scl * 4, Global.scl * 5, Global.scl * 5, Global.scl * 6];
-        const y = [-Global.scl, -Global.scl, -Global.scl * 2, -Global.scl * 2];
+        const x = [4 * Global.scl, 5 * Global.scl, 5 * Global.scl, 6 * Global.scl];
+        const y = [-1 * Global.scl, -1 * Global.scl, -2 * Global.scl, -2 * Global.scl];
         this.createShape(x, y, 'rgb(46, 204, 113)', `rgba(171, 235, 198, ${this.shadowOpacity})`); // light green
     }
 
@@ -128,50 +128,34 @@ class Shape {
 
     rotate() {
         const { scl } = Global;
-        console.log(this.positionState);
+
         switch (this.positionState) {
             case 0:
-                this.cubes[0].coordinates.y += scl;
-                this.cubes[0].coordinates.x += scl * 2;
-                // this.cubes[1].coordinates.y = y;
-                this.cubes[1].coordinates.x += scl;
-                this.cubes[2].coordinates.y += -scl;
-                // this.cubes[2].coordinates.x = x;
-                this.cubes[3].coordinates.y += -scl * 2;
-                this.cubes[3].coordinates.x += -scl;
+                this.setCubeCoordinates([[2 * scl], [scl], [-1 * scl]]);
                 break;
             case 1:
-                this.cubes[0].coordinates.y += scl * 2;
-                this.cubes[0].coordinates.x += -scl;
-                this.cubes[1].coordinates.y += scl;
-                // this.cubes[1].coordinates.x = x;
-                // this.cubes[2].coordinates.y = y;
-                this.cubes[2].coordinates.x += scl;
-                this.cubes[3].coordinates.y += -scl;
-                this.cubes[3].coordinates.x += scl * 2;
+                this.setCubeCoordinates([[-2 * scl, 2 * scl], [-1 * scl, scl], [scl, -1 * scl]]);
                 break;
             case 2:
-                this.cubes[0].coordinates.y += -scl;
-                this.cubes[0].coordinates.x += -scl * 2;
-                // this.cubes[1].coordinates.y = y;
-                this.cubes[1].coordinates.x += -scl;
-                this.cubes[2].coordinates.y += scl;
-                // this.cubes[2].coordinates.x = x;
-                this.cubes[3].coordinates.y += scl * 2;
-                this.cubes[3].coordinates.x += scl;
+                this.setCubeCoordinates([[-2 * scl],[-1 * scl],[scl]]);
                 break;
             case 3:
-                this.cubes[0].coordinates.y += -scl * 2;
-                this.cubes[0].coordinates.x += scl;
-                this.cubes[1].coordinates.y += -scl;
-                // this.cubes[1].coordinates.x = x;
-                // this.cubes[2].coordinates.y = y;
-                this.cubes[2].coordinates.x += -scl;
-                this.cubes[3].coordinates.y += scl;
-                this.cubes[3].coordinates.x += -scl * 2;
+                this.setCubeCoordinates([[2 * scl, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]]);
+                break;
         }
         this.positionState = (this.positionState + 1) % 4; // increment and wrap
         this.calcShadow();
+    }
+
+    /**
+     * set the coordinates of cubes 1, 2 and 4 - 3 doesn't move
+     * @param {array} n - multi dimensional array [[x, y], [x, y], [x, y]] if y omitted then the x value if used
+     * @returns {void}
+     */
+    setCubeCoordinates(n) {
+        this.cubes[0].setCoordinates(n[0][0], n[0][1] ? n[0][1] : n[0][0]);
+        this.cubes[1].setCoordinates(n[1][0], n[1][1] ? n[1][1] : n[1][0]);
+        this.cubes[3].setCoordinates(n[2][0], n[2][1] ? n[2][1] : n[2][0]);
     }
 
     // move the cube by the Global.scl
