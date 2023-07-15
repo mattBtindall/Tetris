@@ -12,6 +12,7 @@ class Tetris {
         this.shape;
         this.cubes = [];
         this.frameInc = 0;
+        this.cubesPerShape = 4
         this.rectBorderRadius = 5;
         this.arrowPressedFlags = {
             left: false,
@@ -104,33 +105,29 @@ class Tetris {
     }
 
     flash() {
-        if (this.flashRow.length !== 0) {
-            if (this.frameInc % 3 === 0) {
-                this.flashRow.forEach(flashDetails => {
-                    flashDetails.x += Global.scl;
-
-                    if (flashDetails.x > width) {
-                        this.flashRow = [];
-                        return;
-                    }
-                });
-            }
-
-            stroke('rgb(255, 204, 0)');
-            fill('rgba(232, 232, 232, 1)');
-            this.flashRow.forEach(flashDetails =>
-                rect(flashDetails.x, flashDetails.y, Global.scl, Global.scl, this.rectBorderRadius));
+        if (this.flashRow.length === 0) {
+            return
         }
+
+        if (this.frameInc % 3 === 0) {
+            this.flashRow.forEach(flashDetails => {
+                flashDetails.x += Global.scl;
+
+                if (flashDetails.x > width) {
+                    this.flashRow = [];
+                    return;
+                }
+            });
+        }
+
+        stroke('rgb(255, 204, 0)');
+        fill('rgba(232, 232, 232, 1)');
+        this.flashRow.forEach(flashDetails =>
+            rect(flashDetails.x, flashDetails.y, Global.scl, Global.scl, this.rectBorderRadius));
     }
 
     togglePause() {
-        if (this.pause) {
-            this.shape.disableControls = false;
-            this.pause = false;
-        } else {
-            this.shape.disableControls = true;
-            this.pause = true;
-        }
+        this.pause = this.shape.disableControls = !this.pause
     }
 
     createNewShape() {

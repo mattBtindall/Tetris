@@ -66,7 +66,7 @@ class Shape {
 
     // Different shape layouts
     createShape(x, y, colour, shadowColour) {
-        for (let i = 0; i < 4; ++i) {
+        for (let i = 0; i < Global.cubesPerShape; ++i) {
             this.cubes[i] = new Cube({ x: x[i], y: y[i], colour, shadowColour, shape: this });
         }
     }
