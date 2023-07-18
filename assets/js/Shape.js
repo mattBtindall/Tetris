@@ -14,10 +14,58 @@ class Shape {
         this.slammed = false;
         this.getRandomShape();
         this.calcShadow();
+
+        /**
+         * Coordinates here can be confusing at first glance.
+         * The array contains coordinates for 4 rotations - hence 4 arrays
+         * each time the up key is pressed one of these arrays (corresponding with this.positionState) is used to offset the cubes coordinates
+         * There are only three arrays within here (three sets of coordinates) - only three of the cubes move upon rotation (the 3rd always stays the same)
+         * within these arrays lay the number(s) (factors of the scale) that the cubes are moved by
+         * if there is only one value then it is used for both the x and y
+         */
+        const scl = Global.scl;
+        this.rotateMovementCoordinates = {
+            line: [
+                [[2 * scl], [scl], [-1 * scl]], // positionState 0: cube[0].x += 2 * scl, cube[0].y += 2 * scl, cube[1].x += scl, cube[1].y += scl, cube[3].x += -1 * scl, cube[3].y += -1 * scl
+                [[-2 * scl, 2 * scl], [-1 * scl, scl], [scl, -1 * scl]],
+                [[-2 * scl],[-1 * scl],[scl]],
+                [[2 * scl, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]]
+            ],
+            t: [
+                [[scl], [scl, -1 * scl], [-1 * scl, scl]],
+                [[-1 * scl, scl], [scl], [-1 * scl]],
+                [[-1 * scl], [-1 * scl, scl], [scl, -1 * scl]],
+                [[scl, -1 * scl], [-1 * scl], [scl]]
+            ],
+            L: [
+                [[0, 2 * scl], [-1 * scl, scl], [scl, -1 * scl]],
+                [[-2 * scl, 0], [-1 * scl, -1 * scl], [scl, scl]],
+                [[0, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]],
+                [[2 * scl, 0], [scl], [-1 * scl]]
+            ],
+            J: [
+                [[2 * scl, 0], [scl, -1 * scl], [-1 * scl , scl]],
+                [[0 , 2 * scl], [scl], [-1 * scl]],
+                [[-2 * scl, 0], [-1 * scl, scl], [scl, -1 * scl]],
+                [[0, -2 * scl], [-1 * scl], [scl]]
+            ],
+            S: [
+                [[0, -2 * scl], [-1 * scl], [-1 * scl, scl]],
+                [[2 * scl, 0], [scl, -1 * scl], [-1 * scl]],
+                [[0, 2 * scl], [scl], [scl, -1 * scl]],
+                [[-2 * scl, 0], [-1 * scl, scl], [scl]]
+            ],
+            Z: [
+                [[2 * scl, 0], [scl], [-1 * scl, scl]],
+                [[0 , 2 * scl], [-1 * scl, scl], [-1 * scl]],
+                [[-2 * scl, 0], [-1 * scl], [scl, -1 * scl]],
+                [[0, -2 * scl], [scl, -1 * scl], [scl]]
+            ]
+        }
     }
 
     // Get random number that isn't the same as the last two
-    getRanShapeNum() {
+    getRanShapeType() {
         const min = 0,
             max = 6;
 
@@ -32,33 +80,32 @@ class Shape {
 
         Shape.prevPrevRanShapeNum = Shape.prevRanShapeNum;
         Shape.prevRanShapeNum = ranShapeNum;
-        return ranShapeNum;
+        return Global.shapeTypes[ranShapeNum];
     }
 
     // Take ran no and choose a shape at random
     getRandomShape() {
-        this.shapeType = this.getRanShapeNum();
-        // switch (1) {
+        this.shapeType = this.getRanShapeType();
         switch (this.shapeType) {
-            case 0:
+            case 'square':
                 this.createSquare();
                 break;
-            case 1:
+            case 'line':
                 this.createLine();
                 break;
-            case 2:
+            case 't':
                 this.createTee();
                 break;
-            case 3:
+            case 'L':
                 this.createLShape();
                 break;
-            case 4:
+            case 'J':
                 this.createJShape();
                 break;
-            case 5:
+            case 'S':
                 this.createSShape();
                 break;
-            case 6:
+            case 'Z':
                 this.createZShape();
                 break;
         }
@@ -93,33 +140,33 @@ class Shape {
 
     createLShape() {
         const xTemp = 5 * Global.scl;
-        const x = [xTemp - Global.scl, xTemp, xTemp, xTemp];
-        const y = [-3 * Global.scl, -3 * Global.scl, -2 * Global.scl, -Global.scl];
+        const x = [xTemp, xTemp, xTemp - Global.scl, xTemp - (2 * Global.scl)];
+        const y = [-2 * Global.scl, -1 * Global.scl, -1 * Global.scl, -1 * Global.scl,]
         this.createShape(x, y, 'rgb(31, 97, 141)', `rgba(127, 179, 213, ${this.shadowOpacity})`); // dark blue
     }
 
     createJShape() {
-        const xTemp = 5 * Global.scl;
-        const x = [xTemp, xTemp + Global.scl, xTemp, xTemp];
-        const y = [-3 * Global.scl, -3 * Global.scl, -2 * Global.scl, -1 * Global.scl];
+        const xTemp = 4 * Global.scl;
+        const x = [xTemp, xTemp, xTemp + Global.scl, xTemp + Global.scl * 2];
+        const y = [-2 * Global.scl, -1 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(41, 128, 185)', `rgba(169, 204, 227, ${this.shadowOpacity})`); // light blue
     }
 
     createTee() {
         const xTemp = 4 * Global.scl;
-        const x = [xTemp, xTemp + Global.scl, xTemp + Global.scl, xTemp + (Global.scl * 2)];
-        const y = [-1 * Global.scl, -2 * Global.scl, -1 * Global.scl, -1 * Global.scl];
+        const x = [xTemp + Global.scl, xTemp, xTemp + Global.scl, xTemp + (Global.scl * 2)];
+        const y = [-2 * Global.scl, -1 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(136, 78, 160)', `rgba(195, 155, 211, ${this.shadowOpacity})`); // purple
     }
 
     createZShape() {
-        const x = [4 * Global.scl, 5 * Global.scl, 5 * Global.scl, 6 * Global.scl];
+        const x = [3 * Global.scl, 4 * Global.scl, 4 * Global.scl, 5 * Global.scl];
         const y = [-2 * Global.scl, -2 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(34, 153, 84)', `rgba(169, 223, 191, ${this.shadowOpacity})`); // dark green
     }
 
     createSShape() {
-        const x = [4 * Global.scl, 5 * Global.scl, 5 * Global.scl, 6 * Global.scl];
+        const x = [3 * Global.scl, 4 * Global.scl, 4 * Global.scl, 5 * Global.scl];
         const y = [-1 * Global.scl, -1 * Global.scl, -2 * Global.scl, -2 * Global.scl];
         this.createShape(x, y, 'rgb(46, 204, 113)', `rgba(171, 235, 198, ${this.shadowOpacity})`); // light green
     }
@@ -127,20 +174,22 @@ class Shape {
     // End of shapes //
 
     rotate() {
-        const { scl } = Global;
+        if (!this.rotateMovementCoordinates.hasOwnProperty(this.shapeType)) {
+            return;
+        }
 
         switch (this.positionState) {
             case 0:
-                this.setCubeCoordinates([[2 * scl], [scl], [-1 * scl]]);
+                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][0]);
                 break;
             case 1:
-                this.setCubeCoordinates([[-2 * scl, 2 * scl], [-1 * scl, scl], [scl, -1 * scl]]);
+                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][1]);
                 break;
             case 2:
-                this.setCubeCoordinates([[-2 * scl],[-1 * scl],[scl]]);
+                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][2]);
                 break;
             case 3:
-                this.setCubeCoordinates([[2 * scl, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]]);
+                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][3]);
                 break;
         }
         this.positionState = (this.positionState + 1) % 4; // increment and wrap

@@ -25,6 +25,10 @@ class Tetris {
         this.utility = {
             getRandomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
         }
+
+        this.shapeTypes = [
+            'square', 'line', 't', 'L', 'J', 'S', 'Z'
+        ];
     }
 
     init() {

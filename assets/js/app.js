@@ -14,7 +14,9 @@ function draw() {
     Global.drawGrid();
 
     if (Global.frameInc % (60 / Global.speedDivider) === 0) {
-        if (!Global.pause) Global.shape.moveY();
+        if (!Global.pause) {
+            Global.shape.moveY();
+        }
     }
 
     Global.flash();
