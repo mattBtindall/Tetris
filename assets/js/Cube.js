@@ -72,8 +72,8 @@ class Cube {
         rect(this.coordinates.x, this.coordinates.y, Global.scl, Global.scl, Global.rectBorderRadius);
     }
 
-    setCoordinates(xn, yn = null) {
+    setCoordinates(xn, yn) {
         this.coordinates.x += xn;
-        this.coordinates.y += yn ? yn : xn;
+        this.coordinates.y += yn;
     }
 }

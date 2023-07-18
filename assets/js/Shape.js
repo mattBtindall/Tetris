@@ -153,9 +153,9 @@ class Shape {
      * @returns {void}
      */
     setCubeCoordinates(n) {
-        this.cubes[0].setCoordinates(n[0][0], n[0][1] ? n[0][1] : n[0][0]);
-        this.cubes[1].setCoordinates(n[1][0], n[1][1] ? n[1][1] : n[1][0]);
-        this.cubes[3].setCoordinates(n[2][0], n[2][1] ? n[2][1] : n[2][0]);
+        this.cubes[0].setCoordinates(n[0][0], (n[0][1] !== undefined) ? n[0][1] : n[0][0]);
+        this.cubes[1].setCoordinates(n[1][0], (n[1][1] !== undefined) ? n[1][1] : n[1][0]);
+        this.cubes[3].setCoordinates(n[2][0], (n[2][1] !== undefined) ? n[2][1] : n[2][0]);
     }
 
     // move the cube by the Global.scl
