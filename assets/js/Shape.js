@@ -62,6 +62,22 @@ class Shape {
                 [[0, -2 * scl], [scl, -1 * scl], [scl]]
             ]
         }
+
+        // data comes from https://tetris.fandom.com/wiki/SRS
+        this.wallKicks = {
+            'JLTSZ': [ // first test if no offSet as this is just the basic rotation coordinates
+                [[0, 0], [-1, 0], [-1, 1], [0, -2] , [-1, -2]], // positionState 0 (0>>1)
+                [[0, 0], [1, 0], [1, -1], [0, 2] , [1, 2]], // positionState 1 (1>>2)
+                [[0, 0], [1, 0], [1, 1], [0, -2] , [1, -2]], // positionState 2 (2>>3)
+                [[0, 0], [-1, 0], [-1, -1], [0, 2] , [-1, 2]] // positionState 3 (3>>0)
+            ],
+            'I': [
+                [[0, 0], [-2, 0], [1, 0], [-2, -1], [1, 2]],
+                [[0, 0], [-1, 0], [2, 0], [-1, 2], [2, -1]],
+                [[0, 0], [2, 0], [-1, 0], [2, 1], [-1, -2]],
+                [[0, 0], [1, 0], [-2, 0], [1, -2], [-2, 1]]
+            ]
+        }
     }
 
     // Get random number that isn't the same as the last two
