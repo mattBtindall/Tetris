@@ -57,14 +57,6 @@ class Cube {
         }
     }
 
-    // rotating
-    collide(x) {
-        if (x < 0 || x >= width) {
-            return true
-        }
-        return false
-    }
-
     moveX(direction) {
         this.coordinates.x += direction;
     }
