@@ -25,13 +25,13 @@ class Shape {
          */
         const scl = Global.scl;
         this.rotateMovementCoordinates = {
-            line: [
+            I: [
                 [[2 * scl], [scl], [-1 * scl]], // positionState 0: cube[0].x += 2 * scl, cube[0].y += 2 * scl, cube[1].x += scl, cube[1].y += scl, cube[3].x += -1 * scl, cube[3].y += -1 * scl
                 [[-2 * scl, 2 * scl], [-1 * scl, scl], [scl, -1 * scl]],
                 [[-2 * scl], [-1 * scl], [scl]],
                 [[2 * scl, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]]
             ],
-            t: [
+            T: [
                 [[scl], [scl, -1 * scl], [-1 * scl, scl]],
                 [[-1 * scl, scl], [scl], [-1 * scl]],
                 [[-1 * scl], [-1 * scl, scl], [scl, -1 * scl]],
@@ -87,26 +87,26 @@ class Shape {
     getRandomShape() {
         this.shapeType = this.getRanShapeType();
         switch (this.shapeType) {
-            case 'square':
-                this.createSquare();
+            case 'O':
+                this.createO();
                 break;
-            case 'line':
-                this.createLine();
+            case 'I':
+                this.createI();
                 break;
-            case 't':
-                this.createTee();
+            case 'T':
+                this.createT();
                 break;
             case 'L':
-                this.createLShape();
+                this.createL();
                 break;
             case 'J':
-                this.createJShape();
+                this.createJ();
                 break;
             case 'S':
-                this.createSShape();
+                this.createS();
                 break;
             case 'Z':
-                this.createZShape();
+                this.createZ();
                 break;
         }
     }
@@ -121,7 +121,7 @@ class Shape {
     // Create Different Shapes
     // For all shapes the starting point (top left box from diagram) = Global.scl*4
 
-    createSquare() {
+    createO() {
         const xTemp = 5 * Global.scl;
         const yTemp = -Global.scl;
         const x = [xTemp, xTemp + Global.scl, xTemp, xTemp + Global.scl];
@@ -129,7 +129,7 @@ class Shape {
         this.createShape(x, y, 'rgb(203, 67, 53)', `rgba(241, 148, 138, ${this.shadowOpacity})`); // red
     }
 
-    createLine() {
+    createI() {
         const xTemp = 4 * Global.scl;
         const x = [xTemp, xTemp, xTemp, xTemp];
         const y = [-4 * Global.scl, -3 * Global.scl, -2 * Global.scl, -1 * Global.scl];
@@ -138,34 +138,34 @@ class Shape {
         // this.createShape( x, y, 'rgb(212, 172, 13 )', `rgba(247, 220, 111 , ${this.shadowOpacity})`); // yellow
     }
 
-    createLShape() {
+    createL() {
         const xTemp = 5 * Global.scl;
         const x = [xTemp, xTemp, xTemp - Global.scl, xTemp - (2 * Global.scl)];
         const y = [-2 * Global.scl, -1 * Global.scl, -1 * Global.scl, -1 * Global.scl,]
         this.createShape(x, y, 'rgb(31, 97, 141)', `rgba(127, 179, 213, ${this.shadowOpacity})`); // dark blue
     }
 
-    createJShape() {
+    createJ() {
         const xTemp = 4 * Global.scl;
         const x = [xTemp, xTemp, xTemp + Global.scl, xTemp + Global.scl * 2];
         const y = [-2 * Global.scl, -1 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(41, 128, 185)', `rgba(169, 204, 227, ${this.shadowOpacity})`); // light blue
     }
 
-    createTee() {
+    createT() {
         const xTemp = 4 * Global.scl;
         const x = [xTemp + Global.scl, xTemp, xTemp + Global.scl, xTemp + (Global.scl * 2)];
         const y = [-2 * Global.scl, -1 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(136, 78, 160)', `rgba(195, 155, 211, ${this.shadowOpacity})`); // purple
     }
 
-    createZShape() {
+    createZ() {
         const x = [3 * Global.scl, 4 * Global.scl, 4 * Global.scl, 5 * Global.scl];
         const y = [-2 * Global.scl, -2 * Global.scl, -1 * Global.scl, -1 * Global.scl];
         this.createShape(x, y, 'rgb(34, 153, 84)', `rgba(169, 223, 191, ${this.shadowOpacity})`); // dark green
     }
 
-    createSShape() {
+    createS() {
         const x = [3 * Global.scl, 4 * Global.scl, 4 * Global.scl, 5 * Global.scl];
         const y = [-1 * Global.scl, -1 * Global.scl, -2 * Global.scl, -2 * Global.scl];
         this.createShape(x, y, 'rgb(46, 204, 113)', `rgba(171, 235, 198, ${this.shadowOpacity})`); // light green

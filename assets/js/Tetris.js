@@ -27,7 +27,7 @@ class Tetris {
         }
 
         this.shapeTypes = [
-            'square', 'line', 't', 'L', 'J', 'S', 'Z'
+            'O', 'I', 'T', 'L', 'J', 'S', 'Z'
         ];
     }
 
