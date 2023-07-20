@@ -178,20 +178,12 @@ class Shape {
             return;
         }
 
-        switch (this.positionState) {
-            case 0:
-                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][0]);
-                break;
-            case 1:
-                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][1]);
-                break;
-            case 2:
-                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][2]);
-                break;
-            case 3:
-                this.setCubeCoordinates(this.rotateMovementCoordinates[this.shapeType][3]);
-                break;
+        const rotateCoordinates = this.rotateMovementCoordinates[this.shapeType][this.positionState];
+        if (!this.canRotate(rotateCoordinates)) {
+            return
         }
+
+        this.setCubeCoordinates(rotateCoordinates)
         this.positionState = (this.positionState + 1) % 4; // increment and wrap
         this.calcShadow();
     }
@@ -205,6 +197,12 @@ class Shape {
         this.cubes[0].setCoordinates(n[0][0], n[0][1]);
         this.cubes[1].setCoordinates(n[1][0], n[1][1]);
         this.cubes[3].setCoordinates(n[2][0], n[2][1]);
+    }
+
+    canRotate(n) {
+        return this.cubes[0].canRotate(n[0][0], n[0][1]) &&
+            this.cubes[1].canRotate(n[1][0], n[1][1]) &&
+            this.cubes[3].canRotate(n[2][0], n[2][1])
     }
 
     // move the cube by the Global.scl

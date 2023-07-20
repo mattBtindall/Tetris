@@ -78,4 +78,41 @@ class Cube {
         this.coordinates.x += xn;
         this.coordinates.y += (yn !== undefined) ? yn : xn;
     }
+
+    // rotating
+    collide({x, y}) {
+        if (x < 0 || x >= width || y >= height) {
+            return true
+        }
+
+        // can't just use y === stackCube.y
+        // if cube starts to move downwards one, then we rotate y no longer is equal to stackCube.y
+        // it's in between
+        for (const stackCube of Global.cubes) {
+            if (x === stackCube.coordinates.x &&
+                y >= stackCube.coordinates.y &&
+                y <= stackCube.coordinates.y + (Global.scl - 1)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    getOffsetCoordinates(xn, yn) {
+        return createVector(
+            this.coordinates.x + xn,
+            this.coordinates.y + ((yn !== undefined) ? yn : xn)
+        );
+    }
+
+    canRotate(xn, yn) {
+        const offsetCoordindates = this.getOffsetCoordinates(xn, yn);
+        const collide = this.collide(offsetCoordindates);
+        if (!collide) {
+            return true
+        }
+
+        return false
+    }
 }
