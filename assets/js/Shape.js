@@ -26,10 +26,10 @@ class Shape {
         const scl = Global.scl;
         this.rotateMovementCoordinates = {
             I: [
-                [[2 * scl], [scl], [-1 * scl]], // positionState 0: cube[0].x += 2 * scl, cube[0].y += 2 * scl, cube[1].x += scl, cube[1].y += scl, cube[3].x += -1 * scl, cube[3].y += -1 * scl
+                [[2 * scl, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]],
+                [[2 * scl], [scl], [-1 * scl]],
                 [[-2 * scl, 2 * scl], [-1 * scl, scl], [scl, -1 * scl]],
-                [[-2 * scl], [-1 * scl], [scl]],
-                [[2 * scl, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]]
+                [[-2 * scl], [-1 * scl], [scl]]
             ],
             T: [
                 [[scl], [scl, -1 * scl], [-1 * scl, scl]],
@@ -146,9 +146,9 @@ class Shape {
     }
 
     createI() {
-        const xTemp = 4 * Global.scl;
-        const x = [xTemp, xTemp, xTemp, xTemp];
-        const y = [-4 * Global.scl, -3 * Global.scl, -2 * Global.scl, -1 * Global.scl];
+        const yTemp = -1 * Global.scl;
+        const x = [2 * Global.scl, 3 * Global.scl, 4 * Global.scl, 5 * Global.scl];
+        const y = [yTemp, yTemp, yTemp, yTemp];
         this.createShape(x, y, 'rgb(214, 137, 16)', `rgba(245, 176, 65, ${this.shadowOpacity})`); // orange
         // this.createShape( x, y, 'rgb(186, 74, 0 )', `rgba(237, 187, 153, ${this.shadowOpacity})`); // burnt orange
         // this.createShape( x, y, 'rgb(212, 172, 13 )', `rgba(247, 220, 111 , ${this.shadowOpacity})`); // yellow
