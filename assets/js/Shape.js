@@ -28,7 +28,7 @@ class Shape {
             line: [
                 [[2 * scl], [scl], [-1 * scl]], // positionState 0: cube[0].x += 2 * scl, cube[0].y += 2 * scl, cube[1].x += scl, cube[1].y += scl, cube[3].x += -1 * scl, cube[3].y += -1 * scl
                 [[-2 * scl, 2 * scl], [-1 * scl, scl], [scl, -1 * scl]],
-                [[-2 * scl],[-1 * scl],[scl]],
+                [[-2 * scl], [-1 * scl], [scl]],
                 [[2 * scl, -2 * scl], [scl, -1 * scl], [-1 * scl, scl]]
             ],
             t: [
@@ -44,8 +44,8 @@ class Shape {
                 [[2 * scl, 0], [scl], [-1 * scl]]
             ],
             J: [
-                [[2 * scl, 0], [scl, -1 * scl], [-1 * scl , scl]],
-                [[0 , 2 * scl], [scl], [-1 * scl]],
+                [[2 * scl, 0], [scl, -1 * scl], [-1 * scl, scl]],
+                [[0, 2 * scl], [scl], [-1 * scl]],
                 [[-2 * scl, 0], [-1 * scl, scl], [scl, -1 * scl]],
                 [[0, -2 * scl], [-1 * scl], [scl]]
             ],
@@ -57,7 +57,7 @@ class Shape {
             ],
             Z: [
                 [[2 * scl, 0], [scl], [-1 * scl, scl]],
-                [[0 , 2 * scl], [-1 * scl, scl], [-1 * scl]],
+                [[0, 2 * scl], [-1 * scl, scl], [-1 * scl]],
                 [[-2 * scl, 0], [-1 * scl], [scl, -1 * scl]],
                 [[0, -2 * scl], [scl, -1 * scl], [scl]]
             ]
@@ -202,9 +202,9 @@ class Shape {
      * @returns {void}
      */
     setCubeCoordinates(n) {
-        this.cubes[0].setCoordinates(n[0][0], (n[0][1] !== undefined) ? n[0][1] : n[0][0]);
-        this.cubes[1].setCoordinates(n[1][0], (n[1][1] !== undefined) ? n[1][1] : n[1][0]);
-        this.cubes[3].setCoordinates(n[2][0], (n[2][1] !== undefined) ? n[2][1] : n[2][0]);
+        this.cubes[0].setCoordinates(n[0][0], n[0][1]);
+        this.cubes[1].setCoordinates(n[1][0], n[1][1]);
+        this.cubes[3].setCoordinates(n[2][0], n[2][1]);
     }
 
     // move the cube by the Global.scl

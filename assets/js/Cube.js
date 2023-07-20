@@ -29,6 +29,7 @@ class Cube {
         this.coordinates.y += Global.scl * this.yspeedMultiplier;
     }
 
+    // moving left
     collideLeft() {
         if (this.coordinates.x <= 0) return true; // hit side
 
@@ -42,6 +43,7 @@ class Cube {
         }
     }
 
+    // moving right
     collideRight() {
         if (this.coordinates.x >= width - Global.scl) return true; // hit side
 
@@ -53,6 +55,14 @@ class Cube {
             )
                 return true;
         }
+    }
+
+    // rotating
+    collide(x) {
+        if (x < 0 || x >= width) {
+            return true
+        }
+        return false
     }
 
     moveX(direction) {
@@ -74,6 +84,6 @@ class Cube {
 
     setCoordinates(xn, yn) {
         this.coordinates.x += xn;
-        this.coordinates.y += yn;
+        this.coordinates.y += (yn !== undefined) ? yn : xn;
     }
 }
