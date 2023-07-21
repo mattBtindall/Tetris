@@ -75,8 +75,8 @@ class Cube {
     }
 
     setCoordinates(xn, yn) {
-        this.coordinates.x += xn;
-        this.coordinates.y += (yn !== undefined) ? yn : xn;
+        this.coordinates.x += (xn * Global.scl);
+        this.coordinates.y += (yn * Global.scl);
     }
 
     // rotating
@@ -101,8 +101,8 @@ class Cube {
 
     getOffsetCoordinates(xn, yn) {
         return createVector(
-            this.coordinates.x + xn,
-            this.coordinates.y + ((yn !== undefined) ? yn : xn)
+            this.coordinates.x + (xn * Global.scl),
+            this.coordinates.y + (yn * Global.scl)
         );
     }
 
