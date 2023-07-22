@@ -49,10 +49,10 @@ class Shape {
                 [[0, -2], [-1, -1], [1, 1]]
             ],
             S: [
-                [[0, -2], [-1, -1], [-1, 1]],
-                [[2, 0], [1, -1], [-1, -1]],
                 [[0, 2], [1, 1], [1, -1]],
-                [[-2, 0], [-1, 1], [1, 1]]
+                [[-2, 0], [-1, 1], [1, 1]],
+                [[0, -2], [-1, -1], [-1, 1]],
+                [[2, 0], [1, -1], [-1, -1]]
             ],
             Z: [
                 [[2, 0], [1, 1], [-1, 1]],
@@ -192,8 +192,8 @@ class Shape {
     }
 
     createS() {
-        const x = [3 * Global.scl, 4 * Global.scl, 4 * Global.scl, 5 * Global.scl];
-        const y = [-1 * Global.scl, -1 * Global.scl, -2 * Global.scl, -2 * Global.scl];
+        const x = [5 * Global.scl, 4 * Global.scl, 4 * Global.scl, 3 * Global.scl]
+        const y = [-2 * Global.scl, -2 * Global.scl, -1 * Global.scl, -1 * Global.scl]
         this.createShape(x, y, 'rgb(46, 204, 113)', `rgba(171, 235, 198, ${this.shadowOpacity})`); // light green
     }
 
