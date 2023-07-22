@@ -77,6 +77,16 @@ class Shape {
                 [[0, 0], [1, 0], [-2, 0], [1, -2], [-2, 1]]
             ]
         }
+
+        // maps the shape to the wall kick
+        this.wallKickMaps = {
+            I: 'I',
+            J: 'JLTSZ',
+            L: 'JLTSZ',
+            T: 'JLTSZ',
+            S: 'JLTSZ',
+            Z: 'JLTSZ'
+        }
     }
 
     // Get random number that isn't the same as the last two
@@ -100,7 +110,8 @@ class Shape {
 
     // Take ran no and choose a shape at random
     getRandomShape() {
-        this.shapeType = this.getRanShapeType();
+        this.shapeType = 'S';
+        // this.shapeType = this.getRanShapeType();
         switch (this.shapeType) {
             case 'O':
                 this.createO();
@@ -194,11 +205,12 @@ class Shape {
         }
 
         const rotateCoordinates = this.rotateMovementCoordinates[this.shapeType][this.positionState];
-        if (!this.canRotate(rotateCoordinates)) {
-            return
+        const wallKickOffSetCoordinates = this.getWallKickoffSetCoordinates(rotateCoordinates);
+        if (!wallKickOffSetCoordinates) {
+            return;
         }
 
-        this.setCubeCoordinates(rotateCoordinates)
+        this.setCubeCoordinates(wallKickOffSetCoordinates);
         this.positionState = (this.positionState + 1) % 4; // increment and wrap
         this.calcShadow();
     }
@@ -211,13 +223,30 @@ class Shape {
     setCubeCoordinates(n) {
         this.cubes[0].setCoordinates(n[0][0], n[0][1]);
         this.cubes[1].setCoordinates(n[1][0], n[1][1]);
-        this.cubes[3].setCoordinates(n[2][0], n[2][1]);
+        this.cubes[2].setCoordinates(n[2][0], n[2][1]);
+        this.cubes[3].setCoordinates(n[3][0], n[3][1]);
+    }
+
+    getWallKickoffSetCoordinates(rotateCoordinates) {
+        const wallKickOffSets = this.wallKicks[this.wallKickMaps[this.shapeType]][this.positionState];
+        console.log(wallKickOffSets)
+        for (const offset of wallKickOffSets) {
+            let rotateCoordinatesTemp = [...rotateCoordinates];
+            rotateCoordinatesTemp = rotateCoordinatesTemp.map(coordinates => [coordinates[0] + offset[0], coordinates[1] + offset[1]]);
+            rotateCoordinatesTemp.splice(2, 0, offset); // inserts data for third cube (this doesn't move in the rotation but when wall kicked it does)
+            if (this.canRotate(rotateCoordinatesTemp)) {
+                return rotateCoordinatesTemp;
+            }
+        }
+
+        return false
     }
 
     canRotate(n) {
         return this.cubes[0].canRotate(n[0][0], n[0][1]) &&
             this.cubes[1].canRotate(n[1][0], n[1][1]) &&
-            this.cubes[3].canRotate(n[2][0], n[2][1])
+            this.cubes[2].canRotate(n[2][0], n[2][1]) &&
+            this.cubes[3].canRotate(n[3][0], n[3][1])
     }
 
     // move the cube by the Global.scl
