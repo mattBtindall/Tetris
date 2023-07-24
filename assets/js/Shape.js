@@ -12,81 +12,12 @@ class Shape {
         this.cubes = [];
         this.shadowOpacity = 1;
         this.slammed = false;
+        this.init();
+    }
+
+    init() {
         this.getRandomShape();
         this.calcShadow();
-
-        /**
-         * Coordinates here can be confusing at first glance.
-         * The array contains coordinates for 4 rotations - hence 4 arrays
-         * each time the up key is pressed one of these arrays (corresponding with this.positionState) is used to offset the cubes coordinates
-         * There are only three arrays within here (three sets of coordinates) - only three of the cubes move upon rotation (the 3rd always stays the same)
-         * within these arrays lay the number(s) (factors of the scale) that the cubes are moved by
-         * if there is only one value then it is used for both the x and y
-         */
-        this.rotateMovementCoordinates = {
-            I: [
-                [[2, -2], [1, -1], [-1, 1]],
-                [[2, 2], [1, 1], [-1, -1]],
-                [[-2, 2], [-1, 1], [1, -1]],
-                [[-2, -2], [-1, -1], [1, 1]]
-            ],
-            T: [
-                [[1, 1], [1, -1], [-1, 1]],
-                [[-1, 1], [1, 1], [-1, -1]],
-                [[-1, -1], [-1, 1], [1, -1]],
-                [[1, -1], [-1, -1], [1, 1]]
-            ],
-            L: [
-                [[0, 2], [-1, 1], [1, -1]],
-                [[-2, 0], [-1, -1], [1, 1]],
-                [[0, -2], [1, -1], [-1, 1]],
-                [[2, 0], [1, 1], [-1, -1]]
-            ],
-            J: [
-                [[2, 0], [1, -1], [-1, 1]],
-                [[0, 2], [1, 1], [-1, -1]],
-                [[-2, 0], [-1, 1], [1, -1]],
-                [[0, -2], [-1, -1], [1, 1]]
-            ],
-            S: [
-                [[0, 2], [1, 1], [1, -1]],
-                [[-2, 0], [-1, 1], [1, 1]],
-                [[0, -2], [-1, -1], [-1, 1]],
-                [[2, 0], [1, -1], [-1, -1]]
-            ],
-            Z: [
-                [[2, 0], [1, 1], [-1, 1]],
-                [[0, 2], [-1, 1], [-1, -1]],
-                [[-2, 0], [-1, -1], [1, -1]],
-                [[0, -2], [1, -1], [1, 1]]
-            ]
-        }
-
-        // data comes from https://tetris.fandom.com/wiki/SRS
-        this.wallKicks = {
-            'JLTSZ': [ // first test if no offSet as this is just the basic rotation coordinates
-                [[0, 0], [-1, 0], [-1, 1], [0, -2] , [-1, -2]], // positionState 0 (0>>1)
-                [[0, 0], [1, 0], [1, -1], [0, 2] , [1, 2]], // positionState 1 (1>>2)
-                [[0, 0], [1, 0], [1, 1], [0, -2] , [1, -2]], // positionState 2 (2>>3)
-                [[0, 0], [-1, 0], [-1, -1], [0, 2] , [-1, 2]] // positionState 3 (3>>0)
-            ],
-            'I': [
-                [[0, 0], [-2, 0], [1, 0], [-2, -1], [1, 2]],
-                [[0, 0], [-1, 0], [2, 0], [-1, 2], [2, -1]],
-                [[0, 0], [2, 0], [-1, 0], [2, 1], [-1, -2]],
-                [[0, 0], [1, 0], [-2, 0], [1, -2], [-2, 1]]
-            ]
-        }
-
-        // maps the shape to the wall kick
-        this.wallKickMaps = {
-            I: 'I',
-            J: 'JLTSZ',
-            L: 'JLTSZ',
-            T: 'JLTSZ',
-            S: 'JLTSZ',
-            Z: 'JLTSZ'
-        }
     }
 
     // Get random number that isn't the same as the last two
@@ -110,8 +41,7 @@ class Shape {
 
     // Take ran no and choose a shape at random
     getRandomShape() {
-        this.shapeType = 'S';
-        // this.shapeType = this.getRanShapeType();
+        this.shapeType = this.getRanShapeType();
         switch (this.shapeType) {
             case 'O':
                 this.createO();
@@ -200,11 +130,11 @@ class Shape {
     // End of shapes //
 
     rotate() {
-        if (!this.rotateMovementCoordinates.hasOwnProperty(this.shapeType)) {
+        if (!Global.rotateMovementCoordinates.hasOwnProperty(this.shapeType)) {
             return;
         }
 
-        const rotateCoordinates = this.rotateMovementCoordinates[this.shapeType][this.positionState];
+        const rotateCoordinates = Global.rotateMovementCoordinates[this.shapeType][this.positionState];
         const wallKickOffSetCoordinates = this.getWallKickoffSetCoordinates(rotateCoordinates);
         if (!wallKickOffSetCoordinates) {
             return;
@@ -228,8 +158,7 @@ class Shape {
     }
 
     getWallKickoffSetCoordinates(rotateCoordinates) {
-        const wallKickOffSets = this.wallKicks[this.wallKickMaps[this.shapeType]][this.positionState];
-        console.log(wallKickOffSets)
+        const wallKickOffSets = Global.wallKicks[Global.wallKickMaps[this.shapeType]][this.positionState];
         for (const offset of wallKickOffSets) {
             let rotateCoordinatesTemp = [...rotateCoordinates];
             rotateCoordinatesTemp = rotateCoordinatesTemp.map(coordinates => [coordinates[0] + offset[0], coordinates[1] + offset[1]]);
