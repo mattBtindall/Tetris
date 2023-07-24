@@ -106,8 +106,25 @@ class Tetris {
     }
 
     init() {
+        this.addThirdCubeRotateCoordinates();
         this.setGrid();
         this.shape = new Shape();
+    }
+
+    /**
+     * add cube 3 position data for every shape (these don't move so it's [0, 0]) but 'I'
+     * do this here as didn't want to hard code these into the rotateMovementCoordinates
+     */
+    addThirdCubeRotateCoordinates() {
+        for (let key in this.rotateMovementCoordinates) {
+            if (key === 'I') {
+                continue
+            }
+
+            for (const coordinates of this.rotateMovementCoordinates[key]) {
+                coordinates.splice(2, 0, [0, 0])
+            }
+        }
     }
 
     setGrid() {

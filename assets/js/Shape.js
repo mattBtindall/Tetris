@@ -162,7 +162,6 @@ class Shape {
         for (const offset of wallKickOffSets) {
             let rotateCoordinatesTemp = [...rotateCoordinates];
             rotateCoordinatesTemp = rotateCoordinatesTemp.map(coordinates => [coordinates[0] + offset[0], coordinates[1] + offset[1]]);
-            rotateCoordinatesTemp.splice(2, 0, offset); // inserts data for third cube (this doesn't move in the rotation but when wall kicked it does)
             if (this.canRotate(rotateCoordinatesTemp)) {
                 return rotateCoordinatesTemp;
             }
