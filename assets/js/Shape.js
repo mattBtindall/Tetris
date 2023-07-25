@@ -142,6 +142,7 @@ class Shape {
 
         this.setCubeCoordinates(wallKickOffSetCoordinates);
         this.positionState = (this.positionState + 1) % 4; // increment and wrap
+        this.setFlash();
         this.calcShadow();
     }
 
@@ -219,22 +220,27 @@ class Shape {
         return false;
     }
 
-    getFlash() {
+    setFlash() {
         if (this.collideY()) {
             this.flash = true;
             return;
         }
-        this.flash = false;
+
+        if (this.flash) {
+            this.resetColour();
+            this.flash = false;
+        }
     }
 
     moveY() {
         if (this.collideY()) {
             this.disableControls = true;
+            this.resetColour();
             Global.createNewShape();
             return
         }
         this.cubes.forEach(cube => cube.moveY());
-        this.getFlash();
+        this.setFlash();
     }
 
     // find the cubes with the same x pos's as the shapes cubes
@@ -266,7 +272,7 @@ class Shape {
         });
     }
 
-    setFlash() {
+    flashColour() {
         if (!this.flash) {
             return;
         }
@@ -289,7 +295,11 @@ class Shape {
 
     show() {
         Global.shape.showShadow(); // display shape shadow - behind the actual shape
-        this.setFlash()
+        this.flashColour()
         this.cubes.forEach(cube => cube.show());
+    }
+
+    resetColour() {
+        this.cubes.forEach(cube => cube.resetColour());
     }
 }

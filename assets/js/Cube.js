@@ -117,6 +117,14 @@ class Cube {
         return false
     }
 
+    /**
+     * used to reset colour after flash
+     * need to be sure it gets reset if not the whole shape can't be seen
+     */
+    resetColour() {
+        this.fillColour = this.colour;
+    }
+
     flash() {
         this.fillColour = this.fillColour !== Global.backgroundColour ? Global.backgroundColour : this.colour;
     }
