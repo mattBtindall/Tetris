@@ -5,6 +5,7 @@ class Tetris {
         console.log('creating tetris object....');
         this.width = 300;
         this.height = 600;
+        this.backgroundColour = '#ccc';
         this.noWidthLines;
         this.scl = 30;
         this.flashRow = [];

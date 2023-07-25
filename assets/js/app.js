@@ -9,7 +9,7 @@ function setup() {
 }
 
 function draw() {
-    background('#ccc');
+    background(Global.backgroundColour);
     Global.frameInc = (Global.frameInc + 1) % 60; // increment and wrap
     Global.drawGrid();
 

@@ -1,4 +1,4 @@
-* Constantly Flash shape when it's collided and it's going to 'land'
+* Constantly Flash shape when it's collided and it's going to 'land' ☑
 * Add a display for the upcoming cubes
 * Add scoring
 * Add levels (Game speeds up)
@@ -6,6 +6,6 @@
 * Displays current users scores
 * Hold score data in local storage (cookies)?
 
-# Create backend for users to log in
-# Store users scores
-# Dynamically update scores based on user profile
+** Create backend for users to log in
+** Store users scores
+** Dynamically update scores based on user profile

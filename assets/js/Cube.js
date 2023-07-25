@@ -12,6 +12,7 @@ class Cube {
             coordinates: createVector(this.coordinates.x, height - Global.scl),
             colour: shadowColour
         }
+        this.fillColour = this.colour;
     }
 
     collideY() {
@@ -69,7 +70,7 @@ class Cube {
     }
 
     show() {
-        fill(this.colour);
+        fill(this.fillColour);
         stroke('rgb(255, 204, 0)');
         rect(this.coordinates.x, this.coordinates.y, Global.scl, Global.scl, Global.rectBorderRadius);
     }
@@ -114,5 +115,9 @@ class Cube {
         }
 
         return false
+    }
+
+    flash() {
+        this.fillColour = this.fillColour !== Global.backgroundColour ? Global.backgroundColour : this.colour;
     }
 }

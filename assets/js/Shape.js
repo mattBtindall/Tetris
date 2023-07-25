@@ -210,15 +210,31 @@ class Shape {
         this.calcShadow();
     }
 
-    moveY() {
+    collideY() {
         for (const cube of this.cubes) {
             if (cube.collideY()) {
-                this.disableControls = true;
-                Global.createNewShape();
-                return;
+                return true;
             }
         }
+        return false;
+    }
+
+    getFlash() {
+        if (this.collideY()) {
+            this.flash = true;
+            return;
+        }
+        this.flash = false;
+    }
+
+    moveY() {
+        if (this.collideY()) {
+            this.disableControls = true;
+            Global.createNewShape();
+            return
+        }
         this.cubes.forEach(cube => cube.moveY());
+        this.getFlash();
     }
 
     // find the cubes with the same x pos's as the shapes cubes
@@ -250,6 +266,16 @@ class Shape {
         });
     }
 
+    setFlash() {
+        if (!this.flash) {
+            return;
+        }
+
+        if (Global.frameInc % 10 === 0) {
+            this.cubes.forEach(cube => cube.flash())
+        }
+    }
+
     showShadow() {
         this.cubes.forEach(cube => cube.showShadow());
     }
@@ -263,6 +289,7 @@ class Shape {
 
     show() {
         Global.shape.showShadow(); // display shape shadow - behind the actual shape
+        this.setFlash()
         this.cubes.forEach(cube => cube.show());
     }
 }
