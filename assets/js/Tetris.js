@@ -3,6 +3,7 @@
 class Tetris {
     constructor() {
         console.log('creating tetris object....');
+        this.frameRate = 60;
         this.width = 300;
         this.height = 600;
         this.backgroundColour = '#ccc';
@@ -148,12 +149,12 @@ class Tetris {
         strokeWeight(1);
 
         this.gridCoordinates.x.forEach(xCoor => {
-            line(xCoor, 0, xCoor, height); // line(x1, y1, x2, y2)
+            line(xCoor, 0, xCoor, this.height); // line(x1, y1, x2, y2)
         });
 
         this.gridCoordinates.y.forEach(yCoor => {
             // line(0, yCoor, width, width); // cool pattern
-            line(0, yCoor, width, yCoor); // line(x1, y1, x2, y2)
+            line(0, yCoor, this.width, yCoor); // line(x1, y1, x2, y2)
         });
     }
 
@@ -209,7 +210,7 @@ class Tetris {
             this.flashRow.forEach(flashDetails => {
                 flashDetails.x += Global.scl;
 
-                if (flashDetails.x > width) {
+                if (flashDetails.x > this.width) {
                     this.flashRow = [];
                     return;
                 }

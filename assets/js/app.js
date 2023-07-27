@@ -5,7 +5,7 @@ function setup() {
     Global = new Tetris();
     Global.init();
     createCanvas(Global.width, Global.height);
-    frameRate(60);
+    frameRate(Global.frameRate);
 }
 
 function draw() {
