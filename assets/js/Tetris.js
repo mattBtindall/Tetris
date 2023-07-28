@@ -23,6 +23,8 @@ class Tetris {
         this.speedDivider = 1; // the higher the faster the cubes fall. min: 1, max: 60
         this.deleteRowWaitTime = 500; // MS
         this.pause = false;
+        this.level = 1;
+        this.currentLeveleRowsDeleted = 0; // rows deleted for the CURRENT LEVEL
 
         this.utility = {
             getRandomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -170,6 +172,7 @@ class Tetris {
                 numberOfXPositions[this.cubes[i].coordinates.y]++;
                 if (numberOfXPositions[this.cubes[i].coordinates.y] === this.noWidthLines) {
                     console.log('full row detected');
+                    ++this.currentLeveleRowsDeleted;
                     rowsToDelete.push(this.cubes[i].coordinates.y);
                     // this.deleteRow(this.cubes[i].coordinates.y);
                 }
@@ -231,11 +234,22 @@ class Tetris {
         if (this.shape.slammed) this.speedDivider = 1;
         this.shape.cubes.forEach(cube => this.cubes.push(cube));
         this.checkFullRow();
+        this.calculateLevel();
         this.shape = new Shape();
     }
 
     show() {
         this.shape.show(); // display the shape
         this.cubes.forEach(cube => cube.show()); // display all the cubes that have landed
+    }
+
+    calculateLevel() {
+        // level up by clearing [current level] * 10 lines
+        // source - https://www.reddit.com/r/Tetris/comments/ksjnnb/what_is_the_leveling_system_in_tetris/
+        const rowsToDelete = this.level * 10;
+        if (this.currentLeveleRowsDeleted >= rowsToDelete) {
+            this.level++;
+            this.currentLeveleRowsDeleted -= rowsToDelete;
+        }
     }
 }
