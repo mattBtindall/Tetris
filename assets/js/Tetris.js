@@ -21,6 +21,8 @@ class Tetris {
             right: false,
         }
         this.speedDivider = 1; // the higher the faster the cubes fall. min: 1, max: 60
+        this.rowsDeletedLastRound = 0;
+        this.score = 0;
         this.deleteRowWaitTime = 500; // MS
         this.pause = false;
         this.level = 1;
@@ -107,6 +109,9 @@ class Tetris {
             S: 'JLTSZ',
             Z: 'JLTSZ'
         }
+
+        // rows cleared at a time
+        this.scores = [100, 300, 500, 800]
     }
 
     init() {
@@ -174,13 +179,14 @@ class Tetris {
                     console.log('full row detected');
                     ++this.currentLeveleRowsDeleted;
                     rowsToDelete.push(this.cubes[i].coordinates.y);
-                    // this.deleteRow(this.cubes[i].coordinates.y);
                 }
             } else {
                 numberOfXPositions[this.cubes[i].coordinates.y] = 1;
             }
         }
 
+        // calc score
+        this.calculateScore(rowsToDelete.length)
         rowsToDelete.sort((a, b) => a - b); // order so it deletes the smallest first
         rowsToDelete.forEach(row => this.deleteRow(row));
     }
@@ -251,5 +257,20 @@ class Tetris {
             this.level++;
             this.currentLeveleRowsDeleted -= rowsToDelete;
         }
+    }
+
+    calculateScore(rowsDeletedThisRound) {
+        if (!rowsDeletedThisRound) {
+            this.rowsDeletedLastRound = rowsDeletedThisRound;
+            return;
+        }
+
+        let multiplier = 1;
+        if (rowsDeletedThisRound === 4 && this.rowsDeletedLastRound === 4) {
+            multiplier = 1.5;
+        }
+
+        this.score += this.scores[rowsDeletedThisRound - 1] * multiplier;
+        this.rowsDeletedLastRound = rowsDeletedThisRound;
     }
 }
