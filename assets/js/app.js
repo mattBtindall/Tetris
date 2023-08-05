@@ -13,7 +13,7 @@ function draw() {
     Global.frameInc = Global.frameInc + 1;
     Global.drawGrid();
 
-    if (Global.frameInc % (60 / Global.speedDivider) === 0) {
+    if (Global.frameInc % Global.speedDivider === 0) {
         if (!Global.pause) {
             Global.shape.moveY();
         }

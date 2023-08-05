@@ -289,7 +289,7 @@ class Shape {
     slam() {
         // speed the whole thing up
         this.disableControls = true;
-        Global.speedDivider = 60;
+        Global.speedDivider = 1;
         this.slammed = true;
     }
 

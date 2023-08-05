@@ -20,7 +20,7 @@ class Tetris {
             left: false,
             right: false,
         }
-        this.speedDivider = 1; // the higher the faster the cubes fall. min: 1, max: 60
+        this.speedDivider = 60; // the lower the faster the cubes fall. min: 60, max: 1
         this.rowsDeletedLastRound = 0;
         this.score = 0;
         this.deleteRowWaitTime = 500; // MS
@@ -87,10 +87,10 @@ class Tetris {
         // data comes from https://tetris.fandom.com/wiki/SRS
         this.wallKicks = {
             'JLTSZ': [ // first test if no offSet as this is just the basic rotation coordinates
-                [[0, 0], [-1, 0], [-1, 1], [0, -2] , [-1, -2]], // positionState 0 (0>>1)
-                [[0, 0], [1, 0], [1, -1], [0, 2] , [1, 2]], // positionState 1 (1>>2)
-                [[0, 0], [1, 0], [1, 1], [0, -2] , [1, -2]], // positionState 2 (2>>3)
-                [[0, 0], [-1, 0], [-1, -1], [0, 2] , [-1, 2]] // positionState 3 (3>>0)
+                [[0, 0], [-1, 0], [-1, 1], [0, -2], [-1, -2]], // positionState 0 (0>>1)
+                [[0, 0], [1, 0], [1, -1], [0, 2], [1, 2]], // positionState 1 (1>>2)
+                [[0, 0], [1, 0], [1, 1], [0, -2], [1, -2]], // positionState 2 (2>>3)
+                [[0, 0], [-1, 0], [-1, -1], [0, 2], [-1, 2]] // positionState 3 (3>>0)
             ],
             'I': [
                 [[0, 0], [-2, 0], [1, 0], [-2, -1], [1, 2]],
@@ -112,6 +112,24 @@ class Tetris {
 
         // rows cleared at a time
         this.scores = [100, 300, 500, 800]
+
+        this.gravity = [
+            0.01667,
+            0.021017,
+            0.026977,
+            0.035256,
+            0.04693,
+            0.06361,
+            0.0879,
+            0.1236,
+            0.1775,
+            0.2598,
+            0.388,
+            0.59,
+            0.92,
+            1.46,
+            2.36,
+        ]
     }
 
     init() {
@@ -237,7 +255,7 @@ class Tetris {
     }
 
     createNewShape() {
-        if (this.shape.slammed) this.speedDivider = 1;
+        if (this.shape.slammed) this.setSpeed();
         this.shape.cubes.forEach(cube => this.cubes.push(cube));
         this.checkFullRow();
         this.calculateLevel();
@@ -256,6 +274,7 @@ class Tetris {
         if (this.currentLeveleRowsDeleted >= rowsToDelete) {
             this.level++;
             this.currentLeveleRowsDeleted -= rowsToDelete;
+            this.setSpeed();
         }
     }
 
@@ -272,5 +291,13 @@ class Tetris {
 
         this.score += this.scores[rowsDeletedThisRound - 1] * multiplier;
         this.rowsDeletedLastRound = rowsDeletedThisRound;
+    }
+
+    convertGravityToFrames(x) {
+        return Math.round(1 / this.gravity[x]);
+    }
+
+    setSpeed() {
+        this.speedDivider = this.convertGravityToFrames(this.level - 1);
     }
 }

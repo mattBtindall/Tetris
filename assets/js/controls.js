@@ -6,7 +6,7 @@ function keyPressed() {
             Global.shape.rotate();
             break;
         case DOWN_ARROW:
-            Global.speedDivider = 15;
+            Global.speedDivider = 5;
             break;
         case RIGHT_ARROW:
             Global.shape.moveXHandler('collideRight', Global.scl, 'right');
@@ -29,6 +29,6 @@ function keyReleased() {
     } else if (keyCode === LEFT_ARROW) {
         Global.arrowPressedFlags.left = false;
     } else if (keyCode === DOWN_ARROW) {
-        Global.speedDivider = 1;
+        Global.setSpeed();
     }
 }
