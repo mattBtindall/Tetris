@@ -10,7 +10,7 @@ function setup() {
 
 function draw() {
     background(Global.backgroundColour);
-    Global.frameInc = (Global.frameInc + 1) % 60; // increment and wrap
+    Global.frameInc = Global.frameInc + 1;
     Global.drawGrid();
 
     if (Global.frameInc % (60 / Global.speedDivider) === 0) {
