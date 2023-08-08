@@ -136,6 +136,8 @@ class Tetris {
         this.addThirdCubeRotateCoordinates();
         this.setGrid();
         this.shape = new Shape();
+        createCanvas(this.width, this.height);
+        frameRate(this.frameRate);
     }
 
     /**
@@ -181,6 +183,26 @@ class Tetris {
             // line(0, yCoor, width, width); // cool pattern
             line(0, yCoor, this.width, yCoor); // line(x1, y1, x2, y2)
         });
+    }
+
+    /**
+     * perform this every frame
+     */
+    everyFrame() {
+        background(this.backgroundColour);
+        this.frameInc++
+        this.drawGrid();
+        this.flash();
+        this.show(); // display the shape and the shapes that have landed
+        this.moveY();
+    }
+
+    moveY() {
+        if (this.frameInc % this.speedDivider !== 0 || this.pause) {
+            return false;
+        }
+
+        this.shape.moveY();
     }
 
     // create an object
