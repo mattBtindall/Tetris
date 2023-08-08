@@ -22,11 +22,13 @@ class Tetris {
         }
         this.speedDivider = 60; // the lower the faster the cubes fall. min: 60, max: 1
         this.rowsDeletedLastRound = 0;
+        this.lines = 0; // total number of rows deleted
         this.score = 0;
         this.deleteRowWaitTime = 500; // MS
         this.pause = false;
         this.level = 1;
         this.currentLeveleRowsDeleted = 0; // rows deleted for the CURRENT LEVEL
+        this.textOutputs = {}; // score, level and lines outputs
 
         this.utility = {
             getRandomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -133,11 +135,19 @@ class Tetris {
     }
 
     init() {
+        this.setTextOutputs();
         this.addThirdCubeRotateCoordinates();
         this.setGrid();
         this.shape = new Shape();
         createCanvas(this.width, this.height);
         frameRate(this.frameRate);
+    }
+
+    setTextOutputs() {
+        const outputs = document.querySelectorAll('.output');
+        this.textOutputs.score = outputs[0];
+        this.textOutputs.level = outputs[1];
+        this.textOutputs.lines = outputs[2];
     }
 
     /**
@@ -225,10 +235,11 @@ class Tetris {
             }
         }
 
-        // calc score
-        this.calculateScore(rowsToDelete.length)
         rowsToDelete.sort((a, b) => a - b); // order so it deletes the smallest first
         rowsToDelete.forEach(row => this.deleteRow(row));
+        this.calculateScore(rowsToDelete.length)
+        this.calculateLevel();
+        this.updateOutputs();
     }
 
     deleteRow(key) {
@@ -280,7 +291,6 @@ class Tetris {
         if (this.shape.slammed) this.setSpeed();
         this.shape.cubes.forEach(cube => this.cubes.push(cube));
         this.checkFullRow();
-        this.calculateLevel();
         this.shape = new Shape();
     }
 
@@ -311,6 +321,7 @@ class Tetris {
             multiplier = 1.5;
         }
 
+        this.lines += rowsDeletedThisRound;
         this.score += this.scores[rowsDeletedThisRound - 1] * multiplier;
         this.rowsDeletedLastRound = rowsDeletedThisRound;
     }
@@ -321,5 +332,15 @@ class Tetris {
 
     setSpeed() {
         this.speedDivider = this.convertGravityToFrames(this.level - 1);
+    }
+
+    updateOutputs() {
+        for (const [key, value] of Object.entries(this.textOutputs)) {
+            if (+value.innerText === this[key]) {
+                continue;
+            }
+
+            value.innerText = this[key]
+        }
     }
 }
