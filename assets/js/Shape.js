@@ -41,8 +41,7 @@ class Shape {
 
     // Take ran no and choose a shape at random
     getRandomShape() {
-        // this.shapeType = this.getRanShapeType();
-        this.shapeType = 'I';
+        this.shapeType = this.getRanShapeType();
         switch (this.shapeType) {
             case 'O':
                 this.createO();

@@ -32,3 +32,42 @@ function keyReleased() {
         Global.setSpeed();
     }
 }
+
+/** for mobiles */
+
+// basis here:
+// first click - record the users mouseX position
+// track the distance between the start postion and the current position everytime it is dragged
+// round this number the closest 5 - if you don't do this, sometimes the mouse data can skip numbers
+// (if numbers are missed, it may miss the multiple in which the shape is suppose to move)
+// everytime the distance is equal to 45 (this is a multiple of Global.scl found through trial and error, the rounding to 5 [and not ten] was used due to this)
+// move the shape by Global.scl
+// when the user drags fast, the distance can be multiple 45, the shape is moved based on the number of multiples
+let drag = false
+function mouseDragged() {
+    if (drag === false) {
+        drag = mouseX
+    }
+
+    const distance = Math.ceil((mouseX - drag) / 5) * 5;
+    if (distance && distance % 45 === 0) {
+        let direction, multiplier;
+        if (distance < 0) {
+            direction = 'Left'
+            multiplier = -1
+        } else {
+            direction = 'Right'
+            multiplier = 1
+        }
+        for (let i = 0; i < Math.abs(distance / 45); i++) {
+            Global.shape.moveX(`collide${direction}`, multiplier * Global.scl)
+        }
+        drag = mouseX
+    }
+
+    return false;
+}
+
+function mouseReleased() {
+    drag = false
+}
