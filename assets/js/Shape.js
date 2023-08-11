@@ -13,6 +13,11 @@ class Shape {
         this.shadowOpacity = 1;
         this.slammed = false;
         this.init();
+        this.drag = {
+            method: null,
+            multiplier: 0,
+            distance: false
+        }
     }
 
     init() {
@@ -223,6 +228,29 @@ class Shape {
      */
     moveSingleRight() {
         this.moveX('collideRight', Global.scl)
+    }
+
+    /**
+     * first click - record the users mouseX position
+     * track the distance between the start postion and the current position everytime it is dragged
+     * round this number the closest 10 - if you don't do this, sometimes the mouse data can skip numbers
+     * (if numbers are missed, it may miss the multiple in which the shape is suppose to move)
+     * everytime the distance is equal to 40 (this is a multiple of Global.scl found through trial and error, the rounding to 10)
+     * move the shape by Global.scl
+     * when the user drags fast, the distance can be multiple 40, the shape is moved based on the number of multiples
+     * rounding to 10 and the 40px movement was found through trial and error
+    */
+    dragged() {
+        if (this.drag.distance === false) {
+            this.drag.distance = mouseX;
+        }
+
+        const roundedDistance = Math.ceil((mouseX - this.drag.distance) / 10) * 10;
+        if (roundedDistance && roundedDistance % 40 === 0) {
+            this.drag.method = roundedDistance < 0 ? 'moveSingleLeft' : 'moveSingleRight';
+            this.drag.multiplier += Math.abs(roundedDistance / 40);
+            this.drag.distance = mouseX;
+        }
     }
 
     collideY() {
