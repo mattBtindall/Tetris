@@ -211,6 +211,20 @@ class Shape {
         this.calcShadow();
     }
 
+    /**
+     * used only for mouse drag
+     */
+    moveSingleLeft() {
+        this.moveX('collideLeft', -1 * Global.scl)
+    }
+
+    /**
+     * used only for mouse drag
+     */
+    moveSingleRight() {
+        this.moveX('collideRight', Global.scl)
+    }
+
     collideY() {
         for (const cube of this.cubes) {
             if (cube.collideY()) {

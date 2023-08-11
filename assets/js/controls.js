@@ -44,24 +44,19 @@ function keyReleased() {
 // move the shape by Global.scl
 // when the user drags fast, the distance can be multiple 45, the shape is moved based on the number of multiples
 let drag = false
+let dragMove = {
+    method: null,
+    multiplier: 0
+}
 function mouseDragged() {
     if (drag === false) {
         drag = mouseX
     }
 
-    const distance = Math.ceil((mouseX - drag) / 5) * 5;
-    if (distance && distance % 45 === 0) {
-        let direction, multiplier;
-        if (distance < 0) {
-            direction = 'Left'
-            multiplier = -1
-        } else {
-            direction = 'Right'
-            multiplier = 1
-        }
-        for (let i = 0; i < Math.abs(distance / 45); i++) {
-            Global.shape.moveX(`collide${direction}`, multiplier * Global.scl)
-        }
+    const distance = Math.ceil((mouseX - drag) / 10) * 10;
+    if (distance && distance % 40 === 0) {
+        dragMove.method = distance < 0 ? 'moveSingleLeft' : 'moveSingleRight'
+        dragMove.multiplier += Math.abs(distance / 40)
         drag = mouseX
     }
 
