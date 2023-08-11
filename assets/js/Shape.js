@@ -5,7 +5,6 @@ class Shape {
     static prevPrevRanShapeNum;
 
     constructor() {
-        console.log('creating shape object...');
         this.shapeType;
         this.positionState = 0;
         this.disableControls = false;
@@ -181,6 +180,23 @@ class Shape {
             this.cubes[1].canRotate(n[1][0], n[1][1]) &&
             this.cubes[2].canRotate(n[2][0], n[2][1]) &&
             this.cubes[3].canRotate(n[3][0], n[3][1])
+    }
+
+    /**
+     * rotate shape on click
+     */
+    clickRotate() {
+        let intervalInc = 0
+        const intervalId = setInterval(() => {
+            if (!mouseIsPressed) {
+                this.rotate();
+                intervalInc = 11
+            }
+
+            if (++intervalInc > 10) {
+                clearInterval(intervalId)
+            }
+        }, 15)
     }
 
     // move the cube by the Global.scl

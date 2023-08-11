@@ -21,6 +21,7 @@ function keyPressed() {
             Global.togglePause();
             break;
     }
+    // return false; // blocks other keyboard shortcuts
 }
 
 function keyReleased() {
@@ -31,6 +32,7 @@ function keyReleased() {
     } else if (keyCode === DOWN_ARROW) {
         Global.setSpeed();
     }
+    return false;
 }
 
 /** for mobiles */
@@ -40,6 +42,12 @@ function mouseDragged() {
     return false;
 }
 
+function mousePressed() {
+    Global.shape.clickRotate();
+    return false;
+}
+
 function mouseReleased() {
     Global.shape.drag.distance = false;
+    return false;
 }
