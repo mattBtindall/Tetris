@@ -12,14 +12,27 @@ class Shape {
         this.shadowOpacity = 1;
         this.slammed = false;
         this.init();
-        this.drag = {
+
+        this.dragX = {
             method: null,
             multiplier: 0,
             distance: false
+        };
+
+        this.dragY = {
+            startPoint: false,
+            speedMovement: false,
+            distance: 0,
+            slamMovementIndex: 0,
+            speedUpMovementIndex: 0,
+            movementPoints: [], // store distance from startPoint when mouseDragged event is triggered - remember mouseDragged refreshers about twice as quick as the frame rate
+            slamFrames: 10, // speed that user has to drag downwards to slam (in frames)
+            speedUpFrames: 20
         }
     }
 
     init() {
+        Global.setSpeed();
         this.getRandomShape();
         this.calcShadow();
     }
@@ -256,17 +269,66 @@ class Shape {
      * when the user drags fast, the distance can be multiple 40, the shape is moved based on the number of multiples
      * rounding to 10 and the 40px movement was found through trial and error
     */
-    dragged() {
-        if (this.drag.distance === false) {
-            this.drag.distance = mouseX;
+    draggedX() {
+        if (this.dragX.distance === false) {
+            this.dragX.distance = mouseX;
         }
 
-        const roundedDistance = Math.ceil((mouseX - this.drag.distance) / 10) * 10;
-        if (roundedDistance && roundedDistance % 40 === 0) {
-            this.drag.method = roundedDistance < 0 ? 'moveSingleLeft' : 'moveSingleRight';
-            this.drag.multiplier += Math.abs(roundedDistance / 40);
-            this.drag.distance = mouseX;
+        const movedBy = this.dragY.speedMoving ? 40 : Global.scl // make more sensitive when speeding downwards
+        const roundedDistance = Math.ceil((mouseX - this.dragX.distance) / 10) * 10;
+        if (roundedDistance && roundedDistance % movedBy === 0) {
+            this.dragX.method = roundedDistance < 0 ? 'moveSingleLeft' : 'moveSingleRight';
+            this.dragX.multiplier += Math.abs(roundedDistance / movedBy);
+            this.dragX.distance = mouseX;
         }
+    }
+
+    /**
+     * track the distance between first dragged click and the current mouseY Pos
+     * called on every dragged event
+     */
+    draggedY() {
+        if (this.dragY.startPoint === false) {
+            this.dragY.startPoint = mouseY;
+        }
+
+        this.dragY.distance = mouseY - this.dragY.startPoint;
+    }
+
+    /**
+     * track the position of the distance - called on every frame
+     * notice how this is separate to the above - we want to track on every frame
+     * the dragged funciton appears to track twice as quick but not consistantly
+     * by tracking on every frame we're keeping things consistent and can thus quantify the movement more accurately
+     */
+    trackDraggedY() {
+        this.dragY.movementPoints.push(this.dragY.distance);
+    }
+
+    /**
+     * perform callback when the finger/mouse has been dragged down the specified distance within the specified time [in frames]
+     * @param {number} frames - number of frames to wait
+     * @param {number} distance - number of pixels the finger has to have moved
+     */
+    speedDownwards(frames, distance, callback, movementPointIndex) {
+        const { movementPoints } = this.dragY;
+        if (movementPoints.length < frames || this.slammed) {
+            return false;
+        }
+
+        console.log(`${this.dragY[movementPointIndex] + (frames - 1)}: ${movementPoints[this.dragY[movementPointIndex] + (frames - 1)]}`)
+        console.log(`${this.dragY[movementPointIndex]}: ${movementPoints[this.dragY[movementPointIndex]]}`)
+        if (movementPoints[this.dragY[movementPointIndex] + (frames - 1)] - movementPoints[this.dragY[movementPointIndex]] >= distance) {
+            callback();
+            return true;
+        }
+
+        this.dragY[movementPointIndex]++;
+    }
+
+    testFunction() {
+        if (this.speedDownwards(this.dragY.slamFrames, 200, this.slam.bind(this), 'slamMovementIndex')) return;
+        this.speedDownwards(this.dragY.speedUpFrames, 120, () => Global.speedDivider = 3, 'speedUpMovementIndex')
     }
 
     collideY() {

@@ -6,7 +6,6 @@ function setup() {
     Global.init();
 }
 
-let dragMovementFrameCount = 0
 function draw() {
     Global.everyFrame();
 }

@@ -6,7 +6,6 @@ class Cube {
         this.shape = shape;
         this.coordinates = createVector(x, y);
         this.colour = colour;
-        this.yspeedMultiplier = 1;
         this.yStop = false;
         this.shadow = {
             coordinates: createVector(this.coordinates.x, height - Global.scl),
@@ -27,7 +26,7 @@ class Cube {
     }
 
     moveY() {
-        this.coordinates.y += Global.scl * this.yspeedMultiplier;
+        this.coordinates.y += Global.scl;
     }
 
     // moving left

@@ -29,7 +29,7 @@ class Tetris {
         this.level = 1;
         this.currentLeveleRowsDeleted = 0; // rows deleted for the CURRENT LEVEL
         this.textOutputs = {}; // score, level and lines outputs
-        this.dragMovementFrameCount = 0;
+        this.dragXMovementFrameCount = 0;
 
         this.utility = {
             getRandomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -207,7 +207,8 @@ class Tetris {
         this.show(); // display the shape and the shapes that have landed
         this.moveY();
 
-        this.dragMovement();
+        this.dragXMovement();
+        this.dragYMovement();
     }
 
     moveY() {
@@ -354,13 +355,23 @@ class Tetris {
      * the drag pressed function seems to track faster than draw does so this causes the shape to jump
      * this functions slow it down to 30 frames a second (every other frame)
     */
-    dragMovement() {
-        if (this.shape.drag.multiplier) {
-            if (this.dragMovementFrameCount % 2 === 0) {
-                this.shape[this.shape.drag.method]()
-                this.shape.drag.multiplier--;
+    dragXMovement() {
+        if (this.shape.dragX.multiplier) {
+            if (this.dragXMovementFrameCount % 2 === 0) {
+                this.shape[this.shape.dragX.method]()
+                this.shape.dragX.multiplier--;
             }
-            this.dragMovementFrameCount++;
+            this.dragXMovementFrameCount++;
         }
+    }
+
+    dragYMovement() {
+        if (this.shape.dragY.startPoint === false) {
+            return;
+        }
+
+        // track drag downwards movement on every frame - this help quantify the speed of the movement
+        this.shape.trackDraggedY();
+        this.shape.testFunction();
     }
 }
