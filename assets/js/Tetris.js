@@ -12,6 +12,7 @@ class Tetris {
         this.flashRow = [];
         this.gridCoordinates = { x: [0], y: [0] };
         this.shape;
+        this.touchControl;
         this.cubes = [];
         this.frameInc = 0;
         this.cubesPerShape = 4
@@ -29,7 +30,6 @@ class Tetris {
         this.level = 1;
         this.currentLeveleRowsDeleted = 0; // rows deleted for the CURRENT LEVEL
         this.textOutputs = {}; // score, level and lines outputs
-        this.dragXMovementFrameCount = 0;
 
         this.utility = {
             getRandomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -140,6 +140,7 @@ class Tetris {
         this.addThirdCubeRotateCoordinates();
         this.setGrid();
         this.shape = new Shape();
+        this.touchControl = new TouchControl();
         createCanvas(this.width, this.height);
         frameRate(this.frameRate);
     }
@@ -207,7 +208,7 @@ class Tetris {
         this.show(); // display the shape and the shapes that have landed
         this.moveY();
 
-        this.dragXMovement();
+        this.touchControl.setXPerFrame();
         this.dragYMovement();
     }
 
@@ -346,25 +347,6 @@ class Tetris {
 
             value.innerText = this[key]
         }
-    }
-
-    /**
-     * slow down the movements of the cube when the user drags
-     * if the shape movements are performed when the users drags fast
-     * the shape jumps about - this is becuase when moving fast the shape can jump 5+ Global.scl at a time
-     * the drag pressed function seems to track faster than draw does so this causes the shape to jump
-     * this functions slow it down to 30 frames a second (every other frame)
-    */
-    dragXMovement() {
-        if (!this.shape.dragX.multiplier || this.shape.slammed) {
-            return;
-        }
-
-        if (this.dragXMovementFrameCount % 2 === 0) {
-            this.shape[this.shape.dragX.method]()
-            this.shape.dragX.multiplier--;
-        }
-        this.dragXMovementFrameCount++;
     }
 
     dragYMovement() {

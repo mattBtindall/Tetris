@@ -39,8 +39,8 @@ function keyReleased() {
 /** for mobiles */
 
 function mouseDragged() {
-    Global.shape.draggedX();
-    Global.shape.draggedY();
+    Global.touchControl.draggedXEvent();
+    // Global.shape.draggedY();
     return false;
 }
 
@@ -50,8 +50,7 @@ function mousePressed() {
 }
 
 function mouseReleased() {
-    console.log(Global.shape.dragY)
-    Global.shape.dragX.distance = false;
+    Global.touchControl.dragX.distance = false;
     Global.shape.dragY.startPoint = false;
     Global.shape.dragY.distance = 0;
     Global.shape.dragY.movementPoints = [];
