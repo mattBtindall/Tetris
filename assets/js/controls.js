@@ -6,7 +6,7 @@ function keyPressed() {
             Global.shape.rotate();
             break;
         case DOWN_ARROW:
-            Global.speedDivider = 5;
+            Global.shape.speedDownwards();
             break;
         case RIGHT_ARROW:
             Global.shape.moveXHandler('collideRight', Global.scl, 'right');
@@ -31,6 +31,7 @@ function keyReleased() {
         Global.arrowPressedFlags.left = false;
     } else if (keyCode === DOWN_ARROW) {
         Global.setSpeed();
+        Global.shape.speedMovingDownwards = false;
     }
     return false;
 }
@@ -38,7 +39,7 @@ function keyReleased() {
 /** for mobiles */
 
 function mouseDragged() {
-    // Global.shape.draggedX();
+    Global.shape.draggedX();
     Global.shape.draggedY();
     return false;
 }
@@ -56,6 +57,9 @@ function mouseReleased() {
     Global.shape.dragY.movementPoints = [];
     Global.shape.dragY.slamMovementIndex = 0;
     Global.shape.dragY.speedUpMovementIndex = 0;
-    if (!Global.shape.slammed) Global.setSpeed();
+    if (Global.shape.speedMovingDownwards) {
+        Global.shape.speedMovingDownwards = false;
+        Global.setSpeed();
+    }
     return false;
 }

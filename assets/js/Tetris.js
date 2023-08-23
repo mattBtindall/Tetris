@@ -356,13 +356,15 @@ class Tetris {
      * this functions slow it down to 30 frames a second (every other frame)
     */
     dragXMovement() {
-        if (this.shape.dragX.multiplier) {
-            if (this.dragXMovementFrameCount % 2 === 0) {
-                this.shape[this.shape.dragX.method]()
-                this.shape.dragX.multiplier--;
-            }
-            this.dragXMovementFrameCount++;
+        if (!this.shape.dragX.multiplier || this.shape.slammed) {
+            return;
         }
+
+        if (this.dragXMovementFrameCount % 2 === 0) {
+            this.shape[this.shape.dragX.method]()
+            this.shape.dragX.multiplier--;
+        }
+        this.dragXMovementFrameCount++;
     }
 
     dragYMovement() {
@@ -372,6 +374,6 @@ class Tetris {
 
         // track drag downwards movement on every frame - this help quantify the speed of the movement
         this.shape.trackDraggedY();
-        this.shape.testFunction();
+        this.shape.testSpeedDownwards();
     }
 }

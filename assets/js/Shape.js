@@ -11,6 +11,7 @@ class Shape {
         this.cubes = [];
         this.shadowOpacity = 1;
         this.slammed = false;
+        this.speedMovingDownwards = false;
         this.init();
 
         this.dragX = {
@@ -274,7 +275,7 @@ class Shape {
             this.dragX.distance = mouseX;
         }
 
-        const movedBy = this.dragY.speedMoving ? 40 : Global.scl // make more sensitive when speeding downwards
+        const movedBy = this.speedMovingDownwards ? 40 : Global.scl // make more sensitive when speeding downwards
         const roundedDistance = Math.ceil((mouseX - this.dragX.distance) / 10) * 10;
         if (roundedDistance && roundedDistance % movedBy === 0) {
             this.dragX.method = roundedDistance < 0 ? 'moveSingleLeft' : 'moveSingleRight';
@@ -310,7 +311,7 @@ class Shape {
      * @param {number} frames - number of frames to wait
      * @param {number} distance - number of pixels the finger has to have moved
      */
-    speedDownwards(frames, distance, callback, movementPointIndex) {
+    testDraggedY(frames, distance, callback, movementPointIndex) {
         const { movementPoints } = this.dragY;
         if (movementPoints.length < frames || this.slammed) {
             return false;
@@ -326,9 +327,9 @@ class Shape {
         this.dragY[movementPointIndex]++;
     }
 
-    testFunction() {
-        if (this.speedDownwards(this.dragY.slamFrames, 200, this.slam.bind(this), 'slamMovementIndex')) return;
-        this.speedDownwards(this.dragY.speedUpFrames, 120, () => Global.speedDivider = 3, 'speedUpMovementIndex')
+    testSpeedDownwards() {
+        if (this.testDraggedY(this.dragY.slamFrames, 250, this.slam.bind(this), 'slamMovementIndex')) return;
+        this.testDraggedY(this.dragY.speedUpFrames, 110, this.speedDownwards.bind(this), 'speedUpMovementIndex')
     }
 
     collideY() {
@@ -411,6 +412,11 @@ class Shape {
         this.disableControls = true;
         Global.speedDivider = 1;
         this.slammed = true;
+    }
+
+    speedDownwards() {
+        this.speedMovingDownwards = true;
+        Global.speedDivider = 4;
     }
 
     show() {
