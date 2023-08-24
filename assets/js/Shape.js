@@ -11,21 +11,12 @@ class Shape {
         this.cubes = [];
         this.shadowOpacity = 1;
         this.slammed = false;
+        this.speedMovingDownwards  = false;
         this.init();
-
-        this.dragY = {
-            startPoint: false,
-            speedMovement: false,
-            distance: 0,
-            slamMovementIndex: 0,
-            speedUpMovementIndex: 0,
-            movementPoints: [], // store distance from startPoint when mouseDragged event is triggered - remember mouseDragged refreshers about twice as quick as the frame rate
-            slamFrames: 10, // speed that user has to drag downwards to slam (in frames)
-            speedUpFrames: 20
-        }
     }
 
     init() {
+        Global.touchControl.init()
         Global.setSpeed();
         this.getRandomShape();
         this.calcShadow();
@@ -87,7 +78,6 @@ class Shape {
 
     // Create Different Shapes
     // For all shapes the starting point (top left box from diagram) = Global.scl*4
-
     createO() {
         const xTemp = 5 * Global.scl;
         const yTemp = -Global.scl;
@@ -139,7 +129,6 @@ class Shape {
     }
 
     // End of shapes //
-
     rotate() {
         if (!Global.rotateMovementCoordinates.hasOwnProperty(this.shapeType)) {
             return;
@@ -251,54 +240,6 @@ class Shape {
      */
     moveSingleRight() {
         this.moveX('collideRight', Global.scl)
-    }
-
-    /**
-     * track the distance between first dragged click and the current mouseY Pos
-     * called on every dragged event
-     */
-    draggedY() {
-        if (this.dragY.startPoint === false) {
-            this.dragY.startPoint = mouseY;
-        }
-
-        this.dragY.distance = mouseY - this.dragY.startPoint;
-    }
-
-    /**
-     * track the position of the distance - called on every frame
-     * notice how this is separate to the above - we want to track on every frame
-     * the dragged funciton appears to track twice as quick but not consistantly
-     * by tracking on every frame we're keeping things consistent and can thus quantify the movement more accurately
-     */
-    trackDraggedY() {
-        this.dragY.movementPoints.push(this.dragY.distance);
-    }
-
-    /**
-     * perform callback when the finger/mouse has been dragged down the specified distance within the specified time [in frames]
-     * @param {number} frames - number of frames to wait
-     * @param {number} distance - number of pixels the finger has to have moved
-     */
-    testDraggedY(frames, distance, callback, movementPointIndex) {
-        const { movementPoints } = this.dragY;
-        if (movementPoints.length < frames || this.slammed) {
-            return false;
-        }
-
-        console.log(`${this.dragY[movementPointIndex] + (frames - 1)}: ${movementPoints[this.dragY[movementPointIndex] + (frames - 1)]}`)
-        console.log(`${this.dragY[movementPointIndex]}: ${movementPoints[this.dragY[movementPointIndex]]}`)
-        if (movementPoints[this.dragY[movementPointIndex] + (frames - 1)] - movementPoints[this.dragY[movementPointIndex]] >= distance) {
-            callback();
-            return true;
-        }
-
-        this.dragY[movementPointIndex]++;
-    }
-
-    testSpeedDownwards() {
-        if (this.testDraggedY(this.dragY.slamFrames, 250, this.slam.bind(this), 'slamMovementIndex')) return;
-        this.testDraggedY(this.dragY.speedUpFrames, 110, this.speedDownwards.bind(this), 'speedUpMovementIndex')
     }
 
     collideY() {

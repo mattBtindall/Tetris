@@ -39,8 +39,8 @@ function keyReleased() {
 /** for mobiles */
 
 function mouseDragged() {
-    Global.touchControl.draggedXEvent();
-    // Global.shape.draggedY();
+    Global.touchControl.trackDragX();
+    Global.touchControl.trackDragY();
     return false;
 }
 
@@ -50,12 +50,7 @@ function mousePressed() {
 }
 
 function mouseReleased() {
-    Global.touchControl.dragX.distance = false;
-    Global.shape.dragY.startPoint = false;
-    Global.shape.dragY.distance = 0;
-    Global.shape.dragY.movementPoints = [];
-    Global.shape.dragY.slamMovementIndex = 0;
-    Global.shape.dragY.speedUpMovementIndex = 0;
+    Global.touchControl.init();
     if (Global.shape.speedMovingDownwards) {
         Global.shape.speedMovingDownwards = false;
         Global.setSpeed();

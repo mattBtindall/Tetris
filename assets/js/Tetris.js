@@ -139,8 +139,8 @@ class Tetris {
         this.setTextOutputs();
         this.addThirdCubeRotateCoordinates();
         this.setGrid();
-        this.shape = new Shape();
         this.touchControl = new TouchControl();
+        this.shape = new Shape();
         createCanvas(this.width, this.height);
         frameRate(this.frameRate);
     }
@@ -208,8 +208,8 @@ class Tetris {
         this.show(); // display the shape and the shapes that have landed
         this.moveY();
 
-        this.touchControl.setXPerFrame();
-        this.dragYMovement();
+        this.touchControl.setDragXPerFrame();
+        this.touchControl.setDragYPerFrame();
     }
 
     moveY() {
@@ -347,15 +347,5 @@ class Tetris {
 
             value.innerText = this[key]
         }
-    }
-
-    dragYMovement() {
-        if (this.shape.dragY.startPoint === false) {
-            return;
-        }
-
-        // track drag downwards movement on every frame - this help quantify the speed of the movement
-        this.shape.trackDraggedY();
-        this.shape.testSpeedDownwards();
     }
 }
